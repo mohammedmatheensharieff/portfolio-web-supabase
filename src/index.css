@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  @apply bg-background-dark text-text-dark;
+}
+
+body {
+  @apply min-h-screen;
+}
+
+#root {
+  @apply min-h-screen flex flex-col;
+}
+
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 15s ease infinite;
+}
