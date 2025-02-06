@@ -99,9 +99,9 @@ export default function Home() {
           className="flex gap-6 justify-center mb-12"
         >
           {[
-            { icon: <Github size={24} />, href: "https://github.com" },
-            { icon: <Linkedin size={24} />, href: "https://linkedin.com" },
-            { icon: <Mail size={24} />, href: "mailto:contact@example.com" }
+            { icon: <Github size={24} />, href: "https://github.com/mohammedmatheensharieff" },
+            { icon: <Linkedin size={24} />, href: "https://www.linkedin.com/in/mohammedmatheensharieff/" },
+            { icon: <Mail size={24} />, href: "mailto:mohammed@zoeencloud.in" }
           ].map((social, index) => (
             <motion.a
               key={index}

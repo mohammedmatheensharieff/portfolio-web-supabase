@@ -76,8 +76,8 @@ export default function Contact() {
               <h2 className="text-xl font-semibold text-white">Contact Information</h2>
             </div>
             <div className="space-y-4 text-gray-400">
-              <p>Email: contact@example.com</p>
-              <p>Location: San Francisco, CA</p>
+              <p>Email: mohammed@zoeencloud.in</p>
+              <p>Location: ZoeenCloud, Sammy's DreamLand, Bangalore -562157</p>
               <p>Available for remote work worldwide</p>
             </div>
           </motion.div>

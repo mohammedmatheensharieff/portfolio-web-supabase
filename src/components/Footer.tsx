@@ -5,14 +5,14 @@ import { motion } from 'framer-motion';
 
 export default function Footer() {
   const socialLinks = [
-    { icon: <Github size={20} />, href: "https://github.com", label: "GitHub" },
-    { icon: <Linkedin size={20} />, href: "https://linkedin.com", label: "LinkedIn" },
-    { icon: <Mail size={20} />, href: "mailto:contact@example.com", label: "Email" }
+    { icon: <Github size={24} />, href: "https://github.com/mohammedmatheensharieff" },
+                { icon: <Linkedin size={24} />, href: "https://www.linkedin.com/in/mohammedmatheensharieff/" },
+                { icon: <Mail size={24} />, href: "mailto:mohammed@zoeencloud.in" }
   ];
 
   const footerLinks = [
     { name: 'About', path: '/about' },
-    { name: 'Projects', path: '/projects' },
+    // { name: 'Projects', path: '/projects' },
     { name: 'Contact', path: '/contact' },
   ];
 
