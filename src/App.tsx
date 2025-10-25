@@ -39,8 +39,10 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 const AdminProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { admin, loading } = useAdminAuth();
+  const { user, loading: authLoading } = useAuth();
+  const isAdmin = Boolean(admin) || user?.role === 'admin';
 
-  if (loading) {
+  if (loading || authLoading) {
     return (
       <div className="flex justify-center items-center py-12">
         <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-gradient-start" />
@@ -48,7 +50,7 @@ const AdminProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
-  if (!admin) {
+  if (!isAdmin) {
     return <Navigate to="/admin/login" />;
   }
 

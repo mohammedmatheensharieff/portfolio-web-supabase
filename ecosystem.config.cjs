@@ -1,12 +1,24 @@
 module.exports = {
-  apps: [{
-    name: 'portfolio',
-    script: 'serve',
-    env: {
-      PM2_SERVE_PATH: './dist',
-      PM2_SERVE_PORT: 3000,
-      PM2_SERVE_SPA: 'true',
-      PM2_SERVE_HOMEPAGE: '/index.html'
-    }
-  }]
-}
+  apps: [
+    {
+      name: 'portfolio-backend',
+      cwd: './server',
+      script: 'node',
+      args: 'src/index.js',
+      env: {
+        NODE_ENV: 'production',
+        PORT: 5000,
+      },
+    },
+    {
+      name: 'portfolio-frontend',
+      script: 'npx',
+      args: 'serve dist --single --listen 4173',
+      cwd: '.',
+      env: {
+        NODE_ENV: 'production',
+      },
+      autorestart: true,
+    },
+  ],
+};

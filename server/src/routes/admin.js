@@ -57,4 +57,21 @@ router.patch('/users/:id', adminRequired, updateValidations, async (req, res, ne
   }
 });
 
+router.delete('/users/:id', adminRequired, async (req, res, next) => {
+  try {
+    if (req.params.id === req.admin.id) {
+      return res.status(400).json({ message: 'You cannot delete your own account.' });
+    }
+
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json({ message: 'User deleted successfully' });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;

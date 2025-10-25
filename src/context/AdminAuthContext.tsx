@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import adminApi from '../lib/adminApi';
 import type { AuthUser } from '../types/database';
+import { useAuth } from './AuthContext';
 
 interface AdminContextValue {
   admin: AuthUser | null;
@@ -26,27 +27,27 @@ const normalize = (incoming: AuthUser): AuthUser => ({
 });
 
 export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
+  const { user, loading: authLoading } = useAuth();
   const [admin, setAdmin] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const refresh = useCallback(async () => {
-    try {
-      const { data } = await adminApi.get<{ admin: AuthUser }>('/admin/auth/me');
-      if (data?.admin) {
-        setAdmin(normalize(data.admin));
-      } else {
-        setAdmin(null);
-      }
-    } catch (error) {
-      setAdmin(null);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
-    refresh();
-  }, [refresh]);
+    if (authLoading) return;
+    if (user?.role === 'admin') {
+      setAdmin(user);
+    } else {
+      setAdmin(null);
+    }
+    setLoading(false);
+  }, [authLoading, user]);
+
+  const refresh = useCallback(async () => {
+    if (user?.role === 'admin') {
+      setAdmin(user);
+    } else {
+      setAdmin(null);
+    }
+  }, [user]);
 
   const login = useCallback(async ({ email, password }: { email: string; password: string }) => {
     const { data } = await adminApi.post<{ admin: AuthUser }>('/admin/auth/login', { email, password });

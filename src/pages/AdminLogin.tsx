@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ShieldCheck, Mail, Lock } from 'lucide-react';
 import { useAdminAuth } from '../context/AdminAuthContext';
+import { useAuth } from '../context/AuthContext';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
 export default function AdminLogin() {
   useDocumentTitle('Admin Login — Mohammed Matheen');
   const navigate = useNavigate();
-  const { login } = useAdminAuth();
+  const { user } = useAuth();
+  const { admin, login } = useAdminAuth();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (user?.role === 'admin' || admin) {
+      navigate('/admin/users', { replace: true });
+    }
+  }, [user, admin, navigate]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();

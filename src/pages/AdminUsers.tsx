@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, ShieldCheck, ShieldAlert, RefreshCw } from 'lucide-react';
+import { Search, ShieldCheck, ShieldAlert, RefreshCw, Trash2 } from 'lucide-react';
 import { Navigate } from 'react-router-dom';
 import adminApi from '../lib/adminApi';
 import type { AuthUser } from '../types/database';
@@ -73,6 +73,28 @@ export default function AdminUsers() {
       return;
     }
     updateUser(targetUser.id, { password });
+  };
+
+  const deleteUser = async (id: string) => {
+    try {
+      await adminApi.delete(`/admin/users/${id}`);
+      setUsers((prev) => prev.filter((user) => user.id !== id));
+      showToast({ type: 'success', message: 'User deleted successfully.' });
+    } catch (error: any) {
+      console.error('Failed to delete user', error);
+      const message = error?.response?.data?.message || 'Unable to delete user. Please try again.';
+      showToast({ type: 'error', message });
+    }
+  };
+
+  const handleDeleteUser = (targetUser: ManagedUser) => {
+    if (targetUser.id === admin?.id) {
+      showToast({ type: 'error', message: 'You cannot delete your own account.' });
+      return;
+    }
+    const confirm = window.confirm(`Delete ${targetUser.email}? This action cannot be undone.`);
+    if (!confirm) return;
+    deleteUser(targetUser.id);
   };
 
   if (!admin) {
@@ -179,6 +201,16 @@ export default function AdminUsers() {
                   onClick={() => handleResetPassword(item)}
                 >
                   Reset password
+                </button>
+                <button
+                  type="button"
+                  className="rounded-lg border border-red-500/40 px-3 py-2 text-xs uppercase tracking-[0.3em] text-red-300 transition hover:border-red-400 hover:text-red-200"
+                  onClick={() => handleDeleteUser(item)}
+                >
+                  <span className="inline-flex items-center gap-1">
+                    <Trash2 size={14} />
+                    Delete
+                  </span>
                 </button>
               </div>
             </div>

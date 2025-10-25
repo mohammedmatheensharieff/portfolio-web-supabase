@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
-import { BadgeCheck, Calendar, Hash, Mail, RefreshCw, User as UserIcon, Image as ImageIcon, PenLine, Loader2 } from 'lucide-react';
+import { BadgeCheck, Calendar, Hash, Mail, RefreshCw, User as UserIcon, Image as ImageIcon, PenLine, Loader2, Sparkles } from 'lucide-react';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
 export default function Dashboard() {
