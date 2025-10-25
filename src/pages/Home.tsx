@@ -10,11 +10,11 @@ const socials = [
 ];
 
 const highlights = [
-  { icon: <Cloud size={18} />, title: 'Cloud Architect', detail: 'Multi-cloud & platform engineering for scale.' },
-  { icon: <Server size={18} />, title: 'DevOps Lead', detail: 'CI/CD, GitOps, and actionable observability.' },
-  { icon: <Code2 size={18} />, title: 'Fullstack Builder', detail: 'Product-ready web experiences with performant APIs.' },
-  { icon: <Coins size={18} />, title: 'FinOps Strategist', detail: 'Cost governance, spend telemetry, and value dashboards.' },
-  { icon: <ShieldCheck size={18} />, title: 'Reliability & SecOps', detail: 'Zero-downtime delivery with secure guardrails.' },
+  { icon: <Cloud size={18} />, title: 'Cloud Platform Architect', detail: 'Multi-cloud topologies, network design, and scalability by default.' },
+  { icon: <Server size={18} />, title: 'DevOps & SRE Lead', detail: 'CI/CD velocity, GitOps automation, and observability that drives action.' },
+  { icon: <Code2 size={18} />, title: 'Fullstack Product Engineer', detail: 'Product-ready web experiences with performant APIs and DX tooling.' },
+  { icon: <Coins size={18} />, title: 'FinOps & Cloud Economics', detail: 'Cost intelligence, spend telemetry, and value dashboards for leadership.' },
+  { icon: <ShieldCheck size={18} />, title: 'Reliability & Security', detail: 'Resilience engineering, incident readiness, and secure guardrails.' },
 ];
 
 const fade = {
