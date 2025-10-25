@@ -1,43 +1,37 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { supabase } from '../lib/supabase';
 import { Mail, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import api from '../lib/api';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [error, setError] = useState('');
+  const [resetLink, setResetLink] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
     setStatus('loading');
     setError('');
+    setResetLink(null);
 
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`,
-      });
-
-      if (error) throw error;
+      const { data } = await api.post('/auth/forgot-password', { email });
       setStatus('success');
-    } catch (error: any) {
-      setError(error.message);
+      if (data?.resetUrl) {
+        setResetLink(data.resetUrl);
+      }
+    } catch (err: any) {
+      setError(err?.response?.data?.message || err?.message || 'Unable to send reset instructions');
       setStatus('error');
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-dark via-gray-900 to-background-dark py-16 px-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="max-w-md mx-auto"
-      >
-        <Link
-          to="/login"
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-8 transition-colors"
-        >
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-md mx-auto">
+        <Link to="/login" className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-8 transition-colors">
           <ArrowLeft size={20} />
           Back to Login
         </Link>
@@ -45,7 +39,6 @@ export default function ForgotPassword() {
         <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-gradient-start to-gradient-end bg-clip-text text-transparent">
           Reset Password
         </h1>
-        
         <p className="text-gray-400 mb-8">
           Enter your email address and we'll send you instructions to reset your password.
         </p>
@@ -68,27 +61,33 @@ export default function ForgotPassword() {
             </div>
           </div>
 
-          {error && (
-            <p className="text-red-500">{error}</p>
-          )}
+          {error && <p className="text-red-500">{error}</p>}
 
           {status === 'success' ? (
-            <div className="p-4 bg-green-900/50 border border-green-700 rounded-lg text-green-400">
-              Check your email for password reset instructions.
+            <div className="p-4 bg-green-900/50 border border-green-700 rounded-lg text-green-400 space-y-2">
+              <p>Check your email for password reset instructions.</p>
+              {resetLink && (
+                <p className="text-sm">
+                  Dev note: reset link for testing —{' '}
+                  <a href={resetLink} className="underline" target="_blank" rel="noreferrer">
+                    open
+                  </a>
+                </p>
+              )}
             </div>
           ) : (
             <motion.button
               type="submit"
               disabled={status === 'loading'}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ scale: status === 'loading' ? 1 : 1.02 }}
+              whileTap={{ scale: status === 'loading' ? 1 : 0.98 }}
               className={`w-full bg-gradient-to-r from-gradient-start to-gradient-end text-black font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2 ${
                 status === 'loading' ? 'opacity-70 cursor-not-allowed' : ''
               }`}
             >
               {status === 'loading' ? (
                 <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black" />
                   <span>Sending...</span>
                 </>
               ) : (

@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import { AdminAuthProvider, useAdminAuth } from './context/AdminAuthContext';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -14,65 +15,104 @@ import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Dashboard from './pages/Dashboard';
+import AdminLogin from './pages/AdminLogin';
+import AdminUsers from './pages/AdminUsers';
 import Footer from './components/Footer';
-import { useAuth } from './context/AuthContext';
 
-// Protected Route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-12">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-gradient-start" />
+      </div>
+    );
+  }
+
   if (!user) {
     return <Navigate to="/login" />;
   }
+
+  return <>{children}</>;
+};
+
+const AdminProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { admin, loading } = useAdminAuth();
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center py-12">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-gradient-start" />
+      </div>
+    );
+  }
+
+  if (!admin) {
+    return <Navigate to="/admin/login" />;
+  }
+
   return <>{children}</>;
 };
 
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <div className="min-h-screen bg-background-dark text-text-dark flex flex-col">
-          <Navbar />
-          <main className="flex-grow">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:slug" element={<BlogPost />} />
-              <Route
-                path="/blog/new"
-                element={
-                  <ProtectedRoute>
-                    <BlogEditor />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/blog/edit/:slug"
-                element={
-                  <ProtectedRoute>
-                    <BlogEditor />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route
-                path="/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </Router>
+      <AdminAuthProvider>
+        <Router>
+          <div className="min-h-screen bg-background-dark text-text-dark flex flex-col">
+            <Navbar />
+            <main className="flex-grow">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
+                <Route
+                  path="/blog/new"
+                  element={
+                    <ProtectedRoute>
+                      <BlogEditor />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/blog/edit/:slug"
+                  element={
+                    <ProtectedRoute>
+                      <BlogEditor />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route
+                  path="/admin/users"
+                  element={
+                    <AdminProtectedRoute>
+                      <AdminUsers />
+                    </AdminProtectedRoute>
+                  }
+                />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </Router>
+      </AdminAuthProvider>
     </AuthProvider>
   );
 }

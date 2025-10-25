@@ -1,9 +1,26 @@
-export interface Profile {
+export interface AuthUser {
   id: string;
-  username: string;
-  full_name: string | null;
-  avatar_url: string | null;
-  updated_at: string;
+  email: string;
+  username?: string;
+  fullName?: string | null;
+  avatarUrl?: string | null;
+  role: 'user' | 'admin';
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  content: string;
+  slug: string;
+  excerpt: string | null;
+  coverImage: string | null;
+  published: boolean;
+  createdAt: string;
+  updatedAt: string;
+  authorId: string;
+  author?: AuthUser | null;
 }
 
 export interface ContactMessage {
@@ -11,28 +28,11 @@ export interface ContactMessage {
   name: string;
   email: string;
   message: string;
-  created_at: string;
+  createdAt: string;
   read: boolean;
 }
 
-export interface BlogPost {
-  id: string;
-  title: string;
-  content: string;
-  author_id: string;
-  created_at: string;
-  updated_at: string;
-  slug: string;
-  excerpt: string | null;
-  published: boolean;
-  cover_image: string | null;
-  profiles?: {
-    username: string;
-    avatar_url: string | null;
-  };
-}
-
 export interface AuthState {
-  user: any | null;
+  user: AuthUser | null;
   loading: boolean;
 }

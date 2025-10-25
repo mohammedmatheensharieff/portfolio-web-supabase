@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { supabase } from '../lib/supabase';
 import { Lock } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import api from '../lib/api';
 
 export default function ResetPassword() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [formData, setFormData] = useState({
     password: '',
     confirmPassword: '',
@@ -13,10 +14,18 @@ export default function ResetPassword() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [error, setError] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const token = searchParams.get('token');
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
     setStatus('loading');
     setError('');
+
+    if (!token) {
+      setError('Reset token missing or invalid. Please request a new email.');
+      setStatus('error');
+      return;
+    }
 
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
@@ -25,33 +34,25 @@ export default function ResetPassword() {
     }
 
     try {
-      const { error } = await supabase.auth.updateUser({
-        password: formData.password
+      await api.post('/auth/reset-password', {
+        token,
+        password: formData.password,
       });
-
-      if (error) throw error;
       setStatus('success');
       setTimeout(() => navigate('/login'), 2000);
-    } catch (error: any) {
-      setError(error.message);
+    } catch (err: any) {
+      setError(err?.response?.data?.message || err?.message || 'Unable to reset password');
       setStatus('error');
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-dark via-gray-900 to-background-dark py-16 px-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="max-w-md mx-auto"
-      >
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-md mx-auto">
         <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-gradient-start to-gradient-end bg-clip-text text-transparent">
           Set New Password
         </h1>
-        
-        <p className="text-gray-400 mb-8">
-          Enter your new password below.
-        </p>
+        <p className="text-gray-400 mb-8">Enter your new password below.</p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
@@ -90,9 +91,7 @@ export default function ResetPassword() {
             </div>
           </div>
 
-          {error && (
-            <p className="text-red-500">{error}</p>
-          )}
+          {error && <p className="text-red-500">{error}</p>}
 
           {status === 'success' ? (
             <div className="p-4 bg-green-900/50 border border-green-700 rounded-lg text-green-400">
@@ -102,15 +101,15 @@ export default function ResetPassword() {
             <motion.button
               type="submit"
               disabled={status === 'loading'}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ scale: status === 'loading' ? 1 : 1.02 }}
+              whileTap={{ scale: status === 'loading' ? 1 : 0.98 }}
               className={`w-full bg-gradient-to-r from-gradient-start to-gradient-end text-black font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2 ${
                 status === 'loading' ? 'opacity-70 cursor-not-allowed' : ''
               }`}
             >
               {status === 'loading' ? (
                 <>
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black" />
                   <span>Updating...</span>
                 </>
               ) : (

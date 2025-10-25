@@ -1,23 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { supabase } from '../lib/supabase';
-import { useAuth } from '../context/AuthContext';
 import { Save, X } from 'lucide-react';
+import api from '../lib/api';
+import { useAuth } from '../context/AuthContext';
+import type { BlogPost } from '../types/database';
 
 export default function BlogEditor() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
+
   const [formData, setFormData] = useState({
     title: '',
     content: '',
     excerpt: '',
-    cover_image: '',
-    published: false
+    coverImage: '',
+    published: false,
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (slug) {
@@ -27,56 +29,55 @@ export default function BlogEditor() {
 
   const fetchPost = async () => {
     try {
-      const { data, error } = await supabase
-        .from('blog_posts')
-        .select('*')
-        .eq('slug', slug)
-        .single();
-
-      if (error) throw error;
-      if (data.author_id !== user?.id) {
+      const { data } = await api.get<{ post: BlogPost }>(`/blog/${slug}`);
+      const post = data.post;
+      if (post.authorId !== user?.id) {
         navigate('/blog');
         return;
       }
-
-      setFormData(data);
-    } catch (error) {
-      console.error('Error fetching post:', error);
+      setFormData({
+        title: post.title,
+        content: post.content,
+        excerpt: post.excerpt || '',
+        coverImage: post.coverImage || '',
+        published: post.published,
+      });
+    } catch (err) {
+      console.error('Error fetching post:', err);
       navigate('/blog');
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
     if (!user) return;
-
     setLoading(true);
-    setError('');
+    setError(null);
 
     try {
-      const newSlug = slug || formData.title.toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/(^-|-$)/g, '');
-
-      const post = {
-        ...formData,
-        slug: newSlug,
-        author_id: user.id,
-      };
-
-      const { error } = slug
-        ? await supabase
-            .from('blog_posts')
-            .update(post)
-            .eq('slug', slug)
-        : await supabase
-            .from('blog_posts')
-            .insert([post]);
-
-      if (error) throw error;
-      navigate(`/blog/${newSlug}`);
-    } catch (error: any) {
-      setError(error.message);
+      if (slug) {
+        await api.put(`/blog/${slug}`, {
+          title: formData.title,
+          content: formData.content,
+          excerpt: formData.excerpt || null,
+          coverImage: formData.coverImage || null,
+          published: formData.published,
+        });
+        navigate(`/blog/${slug}`);
+      } else {
+        const { data } = await api.post<{ post: BlogPost }>('/blog', {
+          title: formData.title,
+          content: formData.content,
+          excerpt: formData.excerpt || null,
+          coverImage: formData.coverImage || null,
+          published: formData.published,
+        });
+        navigate(`/blog/${data.post.slug}`);
+      }
+    } catch (err: any) {
+      console.error('Error saving post:', err);
+      const message = err?.response?.data?.message || 'Unable to save post. Please try again.';
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -89,11 +90,7 @@ export default function BlogEditor() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-dark via-gray-900 to-background-dark py-16 px-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="max-w-4xl mx-auto"
-      >
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-gradient-start to-gradient-end bg-clip-text text-transparent">
             {slug ? 'Edit Post' : 'Create New Post'}
@@ -131,21 +128,21 @@ export default function BlogEditor() {
             <input
               type="text"
               id="excerpt"
-              value={formData.excerpt || ''}
+              value={formData.excerpt}
               onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
               className="w-full px-4 py-2 rounded-lg bg-gray-900/50 backdrop-blur-sm border border-gray-700 text-white focus:border-gradient-start focus:ring-1 focus:ring-gradient-start outline-none transition-all duration-200"
             />
           </div>
 
           <div>
-            <label htmlFor="cover_image" className="block text-sm font-medium mb-2 text-gray-300">
+            <label htmlFor="coverImage" className="block text-sm font-medium mb-2 text-gray-300">
               Cover Image URL
             </label>
             <input
               type="url"
-              id="cover_image"
-              value={formData.cover_image || ''}
-              onChange={(e) => setFormData({ ...formData, cover_image: e.target.value })}
+              id="coverImage"
+              value={formData.coverImage}
+              onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
               className="w-full px-4 py-2 rounded-lg bg-gray-900/50 backdrop-blur-sm border border-gray-700 text-white focus:border-gradient-start focus:ring-1 focus:ring-gradient-start outline-none transition-all duration-200"
             />
           </div>
@@ -177,22 +174,20 @@ export default function BlogEditor() {
             </label>
           </div>
 
-          {error && (
-            <p className="text-red-500">{error}</p>
-          )}
+          {error && <p className="text-red-500">{error}</p>}
 
           <motion.button
             type="submit"
             disabled={loading}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ scale: loading ? 1 : 1.02 }}
+            whileTap={{ scale: loading ? 1 : 0.98 }}
             className={`w-full bg-gradient-to-r from-gradient-start to-gradient-end text-black font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2 ${
               loading ? 'opacity-70 cursor-not-allowed' : ''
             }`}
           >
             {loading ? (
               <>
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black" />
                 <span>Saving...</span>
               </>
             ) : (

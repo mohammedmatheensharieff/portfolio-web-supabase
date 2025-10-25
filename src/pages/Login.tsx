@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { supabase } from '../lib/supabase';
 import { Mail, Lock } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -13,36 +14,27 @@ export default function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
     setLoading(true);
     setError('');
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: formData.email,
-        password: formData.password,
-      });
-
-      if (error) throw error;
+      await login(formData);
       navigate('/');
-    } catch (error: any) {
-      setError(error.message);
+    } catch (err: any) {
+      setError(err?.response?.data?.message || err?.message || 'Unable to login');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="max-w-md mx-auto py-12 px-4"
-    >
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-md mx-auto py-12 px-4">
       <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-gradient-start to-gradient-end bg-clip-text text-transparent">
         Login
       </h1>
-      
+
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label htmlFor="email" className="block text-sm font-medium mb-2 text-gray-300">
@@ -79,30 +71,25 @@ export default function Login() {
         </div>
 
         <div className="flex justify-end">
-          <Link
-            to="/forgot-password"
-            className="text-sm text-gradient-start hover:text-white transition-colors"
-          >
+          <Link to="/forgot-password" className="text-sm text-gradient-start hover:text-white transition-colors">
             Forgot Password?
           </Link>
         </div>
 
-        {error && (
-          <p className="text-red-500">{error}</p>
-        )}
+        {error && <p className="text-red-500">{error}</p>}
 
         <motion.button
           type="submit"
           disabled={loading}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={{ scale: loading ? 1 : 1.02 }}
+          whileTap={{ scale: loading ? 1 : 0.98 }}
           className={`w-full bg-gradient-to-r from-gradient-start to-gradient-end text-black font-medium py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-lg flex items-center justify-center gap-2 ${
             loading ? 'opacity-70 cursor-not-allowed' : ''
           }`}
         >
           {loading ? (
             <>
-              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black" />
               <span>Logging in...</span>
             </>
           ) : (
@@ -112,10 +99,7 @@ export default function Login() {
 
         <p className="text-center text-gray-400">
           Don't have an account?{' '}
-          <Link
-            to="/register"
-            className="text-gradient-start hover:text-white transition-colors"
-          >
+          <Link to="/register" className="text-gradient-start hover:text-white transition-colors">
             Sign Up
           </Link>
         </p>

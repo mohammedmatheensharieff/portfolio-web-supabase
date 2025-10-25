@@ -1,151 +1,209 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, Cloud, GitBranch, GitMerge } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, Cloud, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { supabase } from '../lib/supabase';
+import { useAuth } from '../context/AuthContext';
+import { useAdminAuth } from '../context/AdminAuthContext';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const { admin, logout: adminLogout } = useAdminAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    try {
+      await adminLogout();
+    } catch (error) {
+      // ignore admin logout errors
+    }
+    logout();
     navigate('/');
   };
 
-  const navItems = [
+  const hasAdminAccess = Boolean(admin);
+
+  const baseNavItems = [
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
-    // { name: 'Projects', path: '/projects' },
+    { name: 'Projects', path: '/projects' },
     { name: 'Blog', path: '/blog' },
     { name: 'Contact', path: '/contact' },
   ];
 
+  const navItems = hasAdminAccess ? [...baseNavItems, { name: 'Admin', path: '/admin/users' }] : baseNavItems;
+
+  const isActive = (path: string) => location.pathname === path;
+
+  const navLinkClasses = (path: string) =>
+    `relative px-3 py-2 text-sm font-medium transition-all duration-200 ${
+      isActive(path) ? 'text-white' : 'text-text-muted hover:text-white'
+    }`;
+
   return (
-    <nav className="bg-gradient-to-r from-background-dark via-gray-900 to-background-dark border-b border-gray-800">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center space-x-2">
-            <Link to="/" className="flex items-center space-x-2 text-white hover:text-gray-300 transition-colors">
-              <div className="relative">
-                <Cloud className="h-8 w-8 text-gradient-start" />
-                <GitBranch className="h-4 w-4 text-gradient-mid absolute -bottom-1 -right-1" />
-                <GitMerge className="h-4 w-4 text-gradient-end absolute -top-1 -right-1" />
-              </div>
+    <nav className="sticky top-0 z-50 border-b border-border-subtle/60 bg-background-dark/70 backdrop-blur-3xl">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4">
+        <Link to="/" className="flex items-center gap-3">
+          <div className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-gradient-start/70 via-gradient-mid/70 to-gradient-end/70 text-background-dark shadow-lg shadow-gradient-mid/20">
+            <Cloud className="h-6 w-6" />
+            <motion.span
+              className="absolute -bottom-2 right-2 text-xs uppercase tracking-wide text-gradient-start"
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              Lead
+            </motion.span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-sm uppercase tracking-[0.4em] text-text-muted">Mohammed</span>
+            <span className="text-xl font-semibold text-white">
+              <span className="bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end bg-clip-text text-transparent">
+                Matheen
+              </span>
+            </span>
+          </div>
+        </Link>
+
+        <div className="hidden items-center gap-8 md:flex">
+          <div className="flex items-center gap-1 rounded-full border border-border-subtle/50 bg-background-dark/60 px-2 py-1 shadow-lg shadow-black/20">
+            {navItems.map((item) => (
+              <Link key={item.name} to={item.path} className={navLinkClasses(item.path)}>
+                {item.name}
+                {isActive(item.path) && (
+                  <motion.span
+                    layoutId="activeNav"
+                    className="absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-gradient-start/20 via-gradient-mid/20 to-gradient-end/20"
+                  />
+                )}
+              </Link>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-3">
+            {!user ? (
+              <>
+                <Link to="/login" className="text-sm font-medium text-text-muted transition-colors hover:text-white">
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="rounded-full bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end px-5 py-2 text-sm font-semibold text-background-dark shadow-lg shadow-gradient-mid/30 transition-transform hover:scale-[1.02]"
+                >
+                  Join The Hub
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/dashboard" className="text-sm font-medium text-text-muted transition-colors hover:text-white">
+                  Dashboard
+                </Link>
+                {hasAdminAccess && (
+                  <Link to="/admin/users" className="text-sm font-medium text-text-muted transition-colors hover:text-white">
+                    Admin
+                  </Link>
+                )}
+                <button
+                  onClick={handleLogout}
+                  className="rounded-full border border-red-500/60 px-5 py-2 text-sm font-semibold text-red-400 transition-all hover:border-red-400 hover:text-red-300"
+                >
+                  Logout
+                </button>
+              </>
+            )}
+            <Link
+              to="/contact"
+              className="group hidden items-center gap-2 rounded-full border border-gradient-start/50 px-5 py-2 text-sm font-semibold text-gradient-start transition-all hover:border-gradient-start hover:bg-gradient-start/10 md:flex"
+            >
+              <Sparkles className="h-4 w-4 transition-transform group-hover:rotate-12" />
+              Let's Build
             </Link>
           </div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-4">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                {item.name}
-              </Link>
-            ))}
-            {!user ? (
-              <div className="flex items-center space-x-4">
-                <Link
-                  to="/login"
-                  className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="bg-gradient-to-r from-gradient-start to-gradient-end hover:from-white hover:to-gray-200 text-black px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 transform hover:scale-105"
-                >
-                  Sign Up
-                </Link>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-4">
-                <Link
-                  to="/dashboard"
-                  className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
-                >
-                  Dashboard
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 transform hover:scale-105"
-                >
-                  Logout
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-300 hover:text-white transition-colors"
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
         </div>
+
+        <button
+          onClick={() => setIsOpen((prev) => !prev)}
+          className="flex items-center rounded-full border border-border-subtle/60 p-2 text-text-muted transition-colors hover:text-white md:hidden"
+          aria-label="Toggle navigation"
+        >
+          {isOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
       </div>
 
-      {/* Mobile Navigation */}
       {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          className="md:hidden bg-gradient-to-r from-background-dark via-gray-900 to-background-dark"
-        >
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} className="md:hidden">
+          <div className="space-y-4 border-t border-border-subtle/60 bg-background-dark/95 px-4 py-6">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-900 transition-colors"
                 onClick={() => setIsOpen(false)}
+                className={`block rounded-2xl border border-border-subtle/40 px-4 py-3 text-sm font-semibold transition-all hover:border-gradient-start/60 hover:text-white ${
+                  isActive(item.path)
+                    ? 'bg-gradient-to-r from-gradient-start/10 via-gradient-mid/10 to-gradient-end/10 text-white'
+                    : 'text-text-muted'
+                }`}
               >
                 {item.name}
               </Link>
             ))}
-            {!user ? (
-              <>
-                <Link
-                  to="/login"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-900 transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-900 transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Sign Up
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link
-                  to="/dashboard"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-900 transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Dashboard
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-500 hover:text-red-400 hover:bg-gray-900 transition-colors"
-                >
-                  Logout
-                </button>
-              </>
-            )}
+            <div className="grid gap-3">
+              {!user ? (
+                <>
+                  <Link
+                    to="/login"
+                    onClick={() => setIsOpen(false)}
+                    className="rounded-xl border border-border-subtle/40 px-4 py-3 text-sm font-semibold text-text-muted transition-all hover:border-gradient-start/60 hover:text-white"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    to="/register"
+                    onClick={() => setIsOpen(false)}
+                    className="rounded-xl bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end px-4 py-3 text-sm font-semibold text-background-dark shadow-lg shadow-gradient-mid/30"
+                  >
+                    Join The Hub
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setIsOpen(false)}
+                    className="rounded-xl border border-border-subtle/40 px-4 py-3 text-sm font-semibold text-text-muted transition-all hover:border-gradient-start/60 hover:text-white"
+                  >
+                    Dashboard
+                  </Link>
+                  {hasAdminAccess && (
+                    <Link
+                      to="/admin/users"
+                      onClick={() => setIsOpen(false)}
+                      className="rounded-xl border border-border-subtle/40 px-4 py-3 text-sm font-semibold text-text-muted transition-all hover:border-gradient-start/60 hover:text-white"
+                    >
+                      Admin
+                    </Link>
+                  )}
+                  <button
+                    onClick={() => {
+                      setIsOpen(false);
+                      handleLogout();
+                    }}
+                    className="w-full rounded-xl border border-red-500/50 px-4 py-3 text-sm font-semibold text-red-400 transition-all hover:border-red-400 hover:text-red-300"
+                  >
+                    Logout
+                  </button>
+                </>
+              )}
+              <Link
+                to="/contact"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center justify-center gap-2 rounded-xl border border-gradient-start/60 px-4 py-3 text-sm font-semibold text-gradient-start transition-all hover:bg-gradient-start/10"
+              >
+                <Sparkles className="h-4 w-4" />
+                Let's Build
+              </Link>
+            </div>
           </div>
         </motion.div>
       )}
