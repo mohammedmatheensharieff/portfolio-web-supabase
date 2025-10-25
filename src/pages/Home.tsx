@@ -26,10 +26,30 @@ const fade = {
 };
 
 const heroStats = [
-  { label: 'Cloud migrations shipped', value: '34', icon: Activity },
-  { label: 'Automation pipelines', value: '58', icon: BarChart3 },
-  { label: 'Average spend saved', value: '40%', icon: Coins },
-  { label: 'Reliability targets met', value: '99.95%', icon: ShieldCheck },
+  {
+    label: 'Cloud migrations shipped',
+    value: '34',
+    icon: Activity,
+    description: 'Multi-cloud rollouts with resilient failover and compliance guardrails.',
+  },
+  {
+    label: 'Automation pipelines',
+    value: '58',
+    icon: BarChart3,
+    description: 'GitOps, testing, and release workflows that keep delivery calm.',
+  },
+  {
+    label: 'Average spend saved',
+    value: '40%',
+    icon: Coins,
+    description: 'FinOps guardrails and unit economics aligning product velocity to runway.',
+  },
+  {
+    label: 'Reliability targets met',
+    value: '99.95%',
+    icon: ShieldCheck,
+    description: 'Incident-ready observability, chaos drills, and zero-trust policies.',
+  },
 ];
 
 const pillars = [
