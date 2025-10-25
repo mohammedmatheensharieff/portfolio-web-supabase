@@ -1,6 +1,17 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { AlertCircle, CheckCircle, Mail, MessageSquare, Send, Sparkles, TimerReset } from 'lucide-react';
+import {
+  AlertCircle,
+  CheckCircle,
+  Mail,
+  MessageSquare,
+  Send,
+  Sparkles,
+  TimerReset,
+  Coins,
+  Workflow,
+  CloudCog,
+} from 'lucide-react';
 import api from '../lib/api';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
@@ -29,26 +40,38 @@ export default function Contact() {
 
   const touchpoints = [
     {
-      label: 'Email',
+      label: 'Preferred Channel',
       value: 'mohammed@zoeencloud.in',
-      description: 'Best for project briefs & partnership proposals.',
+      description: 'Best for engagement briefs, FinOps reviews, and technical deep dives.',
+      icon: <Mail className="h-4 w-4 text-gradient-start" />,
     },
     {
-      label: 'Location',
+      label: 'Based In',
       value: 'Bengaluru • IST (UTC+5:30)',
-      description: 'Collaborating with teams across EMEA, APAC, and North America.',
+      description: 'Partnering with founders and teams across EMEA, APAC, and North America.',
+      icon: <CloudCog className="h-4 w-4 text-gradient-start" />,
     },
     {
       label: 'Response Pace',
       value: '< 24 hours',
-      description: 'Thoughtful replies with next steps and clarity on availability.',
+      description: 'Expect thoughtful replies outlining fit, approach, and next steps.',
+      icon: <TimerReset className="h-4 w-4 text-gradient-start" />,
     },
   ];
 
   const availability = [
-    'Fractional cloud architect retainers',
-    'DevOps leadership coaching pods',
-    'Cloud readiness assessments & roadmaps',
+    {
+      label: 'Platform Architecture Intensives',
+      icon: <CloudCog className="h-4 w-4 text-gradient-start" />,
+    },
+    {
+      label: 'DevOps & SRE Leadership Pods',
+      icon: <Workflow className="h-4 w-4 text-gradient-start" />,
+    },
+    {
+      label: 'FinOps Diagnostics & Runbooks',
+      icon: <Coins className="h-4 w-4 text-gradient-start" />,
+    },
   ];
 
   return (
@@ -70,35 +93,40 @@ export default function Contact() {
             Connect
           </span>
           <h1 className="text-4xl font-semibold text-white md:text-5xl">
-            Let's architect cloud outcomes that <span className="bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end bg-clip-text text-transparent">actually stick</span>
+            Let&apos;s design cloud, DevOps, and FinOps outcomes that <span className="bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end bg-clip-text text-transparent">actually stick</span>
           </h1>
           <p className="text-sm text-text-muted md:text-base">
-            Share what you’re building, the obstacles in your way, or the team you want to empower. I’ll respond with clarity on fit, potential roadmaps, and how we can gauge success together.
+            Share what you’re building, the obstacles in your way, or the indicators you want to shift. You’ll hear back with clarity on fit, a suggested approach, and how we’ll measure impact together.
           </p>
 
           <div className="space-y-4">
             {touchpoints.map((point) => (
               <div
                 key={point.label}
-                className="rounded-3xl border border-border-subtle/60 bg-background-dark/70 p-5 shadow-lg shadow-black/20"
+                className="flex items-start gap-4 rounded-3xl border border-border-subtle/60 bg-background-dark/70 p-5 shadow-lg shadow-black/20"
               >
-                <p className="text-xs uppercase tracking-[0.35em] text-text-muted">{point.label}</p>
-                <p className="mt-2 text-lg font-semibold text-white">{point.value}</p>
-                <p className="mt-1 text-sm text-text-muted">{point.description}</p>
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-br from-gradient-start/30 via-gradient-mid/25 to-gradient-end/30">
+                  {point.icon}
+                </span>
+                <div>
+                  <p className="text-xs uppercase tracking-[0.35em] text-text-muted">{point.label}</p>
+                  <p className="mt-2 text-lg font-semibold text-white">{point.value}</p>
+                  <p className="mt-1 text-sm text-text-muted">{point.description}</p>
+                </div>
               </div>
             ))}
           </div>
 
-          <div className="rounded-3xl border border-gradient-start/40 bg-gradient-to-br from-gradient-start/10 via-gradient-mid/10 to-gradient-end/10 p-6 text-sm text-text-muted shadow-xl shadow-gradient-mid/30">
+          <div className="rounded-3xl border border-gradient-start/40 bg-gradient-to-br from-gradient-start/10 via-gradient-mid/10 to-gradient-end/10 p-6 shadow-xl shadow-gradient-mid/30">
             <div className="flex items-center gap-2 text-xs uppercase tracking-[0.35em] text-gradient-start">
-              <TimerReset className="h-4 w-4" />
-              Availability 2024
+              <Sparkles className="h-4 w-4" />
+              2024 Focus Tracks
             </div>
-            <ul className="mt-4 space-y-2">
+            <ul className="mt-4 space-y-3 text-sm text-text-muted">
               {availability.map((item) => (
-                <li key={item} className="flex items-center gap-3">
-                  <CheckCircle className="h-4 w-4 text-gradient-start" />
-                  <span>{item}</span>
+                <li key={item.label} className="flex items-center gap-3">
+                  {item.icon}
+                  <span>{item.label}</span>
                 </li>
               ))}
             </ul>
@@ -112,15 +140,17 @@ export default function Contact() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <div className="flex items-center gap-3">
-            <MessageSquare className="h-5 w-5 text-gradient-start" />
-            <p className="text-sm font-semibold text-white">Drop the brief</p>
+          <div className="space-y-2">
+            <div className="flex items-center gap-3">
+              <MessageSquare className="h-5 w-5 text-gradient-start" />
+              <p className="text-sm font-semibold text-white">Drop the brief</p>
+            </div>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-text-muted">
+              Outline the mission, current friction, and the timeline you are aiming for.
+            </p>
           </div>
-          <p className="text-xs uppercase tracking-[0.35em] text-text-muted">
-            Outline the mission, current friction, and the timeline you are aiming for.
-          </p>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             <div>
               <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-[0.3em] text-text-muted">
                 Name
@@ -143,7 +173,7 @@ export default function Contact() {
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="mt-2 w-full rounded-xl border border-border-subtle/60 bg-background-dark/70 px-4 py-3 text-sm text-white outline-none transition-all focus:border-gradient-start focus:ring-2 focus:ring-gradient-start/40"
+                className="mt-1.5 w-full rounded-xl border border-border-subtle/60 bg-background-dark/70 px-4 py-3 text-sm text-white outline-none transition-all focus:border-gradient-start focus:ring-2 focus:ring-gradient-start/40"
                 required
               />
             </div>
@@ -156,8 +186,8 @@ export default function Contact() {
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 rows={6}
-                className="mt-2 w-full resize-none rounded-xl border border-border-subtle/60 bg-background-dark/70 px-4 py-3 text-sm text-white outline-none transition-all focus:border-gradient-start focus:ring-2 focus:ring-gradient-start/40"
-                placeholder="Share what you’re building and the transformation you’re targeting."
+                className="mt-1.5 w-full resize-none rounded-xl border border-border-subtle/60 bg-background-dark/70 px-4 py-3 text-sm text-white outline-none transition-all focus:border-gradient-start focus:ring-2 focus:ring-gradient-start/40"
+                placeholder="Share what you’re building, the KPIs that matter, and the timeline you’re targeting."
                 required
               />
             </div>

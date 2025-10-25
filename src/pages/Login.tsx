@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, Lock } from 'lucide-react';
+import { Lock, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
@@ -10,7 +10,7 @@ export default function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [formData, setFormData] = useState({
-    email: '',
+    identity: '',
     password: '',
   });
   const [error, setError] = useState('');
@@ -39,19 +39,18 @@ export default function Login() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-2 text-gray-300">
-            Email
+          <label htmlFor="identity" className="block text-sm font-medium mb-2 text-gray-300">
+            Email or Username
           </label>
           <div className="relative">
             <input
-              type="email"
-              id="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              id="identity"
+              value={formData.identity}
+              onChange={(e) => setFormData({ ...formData, identity: e.target.value })}
               className="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-900/50 backdrop-blur-sm border border-gray-700 text-white focus:border-gradient-start focus:ring-1 focus:ring-gradient-start outline-none transition-all duration-200"
               required
             />
-            <Mail className="absolute left-3 top-2.5 text-gray-400" size={20} />
+            <User className="absolute left-3 top-2.5 text-gray-400" size={20} />
           </div>
         </div>
 
@@ -102,7 +101,7 @@ export default function Login() {
         <p className="text-center text-gray-400">
           Don't have an account?{' '}
           <Link to="/register" className="text-gradient-start hover:text-white transition-colors">
-            Sign Up
+            Join The Hub
           </Link>
         </p>
       </form>

@@ -28,10 +28,16 @@ export default function Register() {
 
     setLoading(true);
     try {
+      if (!formData.username.trim()) {
+        setError('Username is required');
+        setLoading(false);
+        return;
+      }
+
       await register({
         email: formData.email,
         password: formData.password,
-        username: formData.username || undefined,
+        username: formData.username.trim(),
       });
       navigate('/');
     } catch (err: any) {
@@ -44,7 +50,7 @@ export default function Register() {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-md mx-auto py-12 px-4">
       <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-gradient-start to-gradient-end bg-clip-text text-transparent">
-        Create Account
+        Join The Hub
       </h1>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -64,7 +70,7 @@ export default function Register() {
 
         <div>
           <label htmlFor="username" className="block text-sm font-medium mb-2 text-gray-300">
-            Username (optional)
+            Username
           </label>
           <input
             type="text"
@@ -72,6 +78,7 @@ export default function Register() {
             value={formData.username}
             onChange={(e) => setFormData({ ...formData, username: e.target.value })}
             className="w-full px-4 py-2 rounded-md bg-gray-900 border border-gray-700 text-white focus:border-gradient-start focus:ring-1 focus:ring-gradient-start outline-none transition-all duration-200"
+            required
           />
         </div>
 

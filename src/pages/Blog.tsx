@@ -22,7 +22,7 @@ interface ExternalArticle {
 }
 
 export default function Blog() {
-  useDocumentTitle('DevOps & Cloud Blog — Mohammed Matheen');
+  useDocumentTitle('DevOps · Cloud · FinOps — Mohammed Matheen');
   const { user } = useAuth();
   const navigate = useNavigate();
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -50,7 +50,7 @@ export default function Blog() {
         setNewsMeta({ fetchedAt: newsResult.value.data.fetchedAt, expiresAt: newsResult.value.data.expiresAt });
       } else {
         console.error('Error fetching news:', newsResult.reason);
-        setNewsError('Unable to reach the global DevOps feed right now.');
+        setNewsError('Unable to reach the global DevOps, cloud, and FinOps feed right now.');
       }
 
       setLoading(false);
@@ -123,11 +123,11 @@ export default function Blog() {
             variants={itemVariants}
             className="text-4xl font-bold bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end bg-clip-text text-transparent"
           >
-            DevOps &amp; Cloud Intelligence Hub
+            DevOps · Cloud · FinOps Intelligence Hub
           </motion.h1>
           <motion.p variants={itemVariants} className="max-w-xl text-gray-400">
-            Curated daily updates from the global DevOps and cloud community, layered with original insights from your
-            own blog. Stay sharp, ship faster.
+            Curated daily updates across automation, cloud platforms, and FinOps economics—layered with original
+            insights from your own blog. Stay sharp, ship faster, spend smarter.
           </motion.p>
           {user && (
             <motion.button
@@ -151,9 +151,10 @@ export default function Blog() {
                   <Globe size={20} />
                 </span>
                 <div>
-                  <h2 className="text-2xl font-semibold text-white">Daily DevOps &amp; Cloud Radar</h2>
+                  <h2 className="text-2xl font-semibold text-white">Daily DevOps · Cloud · FinOps Radar</h2>
                   <p className="text-sm text-gray-400">
-                    Aggregated headlines across cloud, SRE, infrastructure, and automation—refreshed throughout the day.
+                    Aggregated headlines across SRE, infrastructure, automation, and FinOps cost strategy—refreshed
+                    throughout the day.
                   </p>
                 </div>
               </div>
@@ -228,7 +229,7 @@ export default function Blog() {
               </motion.div>
             ) : (
               <div className="rounded-2xl border border-border-subtle/40 bg-gray-900/40 p-6 text-sm text-gray-400">
-                Nothing surfaced yet today. Check back soon for fresh DevOps and cloud updates.
+                Nothing surfaced yet today. Check back soon for fresh DevOps, cloud, and FinOps updates.
               </div>
             )}
           </section>
@@ -306,7 +307,7 @@ export default function Blog() {
                     Share your first insight
                   </button>
                 ) : (
-                  <p>Sign in to publish your latest thoughts on DevOps and cloud.</p>
+                  <p>Sign in to publish your latest thoughts on DevOps, cloud, and FinOps.</p>
                 )}
               </div>
             )}

@@ -11,6 +11,8 @@ import {
   Laptop,
   Layers,
   Link as LinkIcon,
+  Coins,
+  Monitor,
   Shield,
   Sparkles,
   TrendingUp,
@@ -39,12 +41,12 @@ const highlights = [
   { label: 'Years Leading Transformation', value: '7+', icon: Sparkles },
   { label: 'Cloud Migrations Delivered', value: '34', icon: Cloud },
   { label: 'Automation Pipelines Deployed', value: '58', icon: Code2 },
-  { label: 'Teams Mentored', value: '12', icon: Users },
+  { label: 'Spend Efficiency Gains', value: '28%', icon: Coins },
 ];
 
 const narrative = [
   "I help ambitious teams translate complex business challenges into resilient cloud architectures. I've led cross-functional squads from discovery to delivery, aligning infrastructure decisions with product goals and budget realities.",
-  "My sweet spot is where architecture, DevOps, and security converge. I drive hands-on delivery—codifying infrastructure, automating deployments, and installing feedback loops that help teams ship faster without sacrificing reliability.",
+  "My sweet spot is where architecture, fullstack product delivery, DevOps, and security converge. I drive hands-on execution—codifying infrastructure, shaping DX for engineers, and installing feedback loops that help teams ship faster without sacrificing reliability.",
   "These days I'm building adaptive multi-cloud environments, advising on FinOps strategies, and coaching teams on adopting modern engineering practices that stick.",
 ];
 
@@ -88,6 +90,11 @@ const focusAreas = [
     items: ['AWS Advanced Networking Specialty', 'Azure Solutions Architect', 'Google Cloud Professional Architect'],
   },
   {
+    title: 'Fullstack Engineering',
+    icon: Monitor,
+    items: ['TypeScript + React delivery', 'Next.js & Vite production stacks', 'Design systems & DX tooling'],
+  },
+  {
     title: 'Automation Toolkit',
     icon: Code2,
     items: ['Terraform & Pulumi', 'Crossplane & ArgoCD', 'GitHub Actions, GitLab CI, Jenkins'],
@@ -96,6 +103,11 @@ const focusAreas = [
     title: 'Resilience & Security',
     icon: Shield,
     items: ['Zero Trust design', 'Incident response playbooks', 'Kubernetes policy frameworks (OPA/Gatekeeper)'],
+  },
+  {
+    title: 'FinOps & Economics',
+    icon: Coins,
+    items: ['Spend telemetry & forecasting', 'Showback/chargeback frameworks', 'FinOps Foundation practitioner'],
   },
 ];
 
@@ -111,6 +123,14 @@ const ecosystem = [
   {
     category: 'Observability',
     tools: ['Grafana', 'Prometheus', 'Elastic Stack', 'Datadog', 'Honeycomb'],
+  },
+  {
+    category: 'Frontend & Product',
+    tools: ['React', 'Next.js', 'Vite', 'Tailwind', 'Storybook'],
+  },
+  {
+    category: 'FinOps & Analytics',
+    tools: ['AWS Cost Explorer', 'Azure Cost Management', 'CloudHealth', 'Finout', 'Looker Studio'],
   },
   {
     category: 'Collaboration',
@@ -185,7 +205,7 @@ export default function About() {
               <div>
                 <span className="text-sm uppercase tracking-wide text-gray-400">Current Mission</span>
                 <p className="text-lg text-white mt-2">
-                  Architecting zero-downtime delivery systems and community programs that help teams scale with confidence.
+                  Architecting zero-downtime delivery systems, FinOps guardrails, and community programs that help teams scale with confidence.
                 </p>
               </div>
               <motion.ul
@@ -255,7 +275,7 @@ export default function About() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
-          className="grid md:grid-cols-3 gap-6"
+          className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
         >
           {focusAreas.map((area) => (
             <motion.div

@@ -4,8 +4,8 @@ import api from '../lib/api';
 
 interface AuthContextValue extends AuthState {
   token: string | null;
-  login: (credentials: { email: string; password: string }) => Promise<void>;
-  register: (payload: { email: string; password: string; username?: string }) => Promise<void>;
+  login: (credentials: { identity: string; password: string }) => Promise<void>;
+  register: (payload: { email: string; password: string; username: string }) => Promise<void>;
   logout: () => void;
   refreshUser: () => Promise<void>;
   updateProfile: (payload: { username?: string; fullName?: string; avatarUrl?: string }) => Promise<void>;
@@ -96,7 +96,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     refreshUser();
   }, [refreshUser]);
 
-  const login = useCallback(async (credentials: { email: string; password: string }) => {
+  const login = useCallback(async (credentials: { identity: string; password: string }) => {
     const { data } = await api.post<{ token: string; user: AuthUser }>('/auth/login', credentials);
     const normalized = normalizeUser(data.user);
     setToken(data.token);
@@ -104,7 +104,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     persistAuth(data.token, normalized);
   }, []);
 
-  const register = useCallback(async (payload: { email: string; password: string; username?: string }) => {
+  const register = useCallback(async (payload: { email: string; password: string; username: string }) => {
     const { data } = await api.post<{ token: string; user: AuthUser }>('/auth/register', payload);
     const normalized = normalizeUser(data.user);
     setToken(data.token);

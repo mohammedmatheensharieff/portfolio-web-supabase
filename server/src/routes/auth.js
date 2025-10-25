@@ -30,11 +30,20 @@ router.post(
   withValidation([
     body('email').isEmail().withMessage('Valid email required'),
     body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
-    body('username').optional().isLength({ min: 2 }).withMessage('Username should be at least 2 characters'),
+    body('username')
+      .isString()
+      .withMessage('Username is required')
+      .isLength({ min: 2, max: 40 })
+      .withMessage('Username should be 2-40 characters'),
   ]),
   async (req, res, next) => {
     try {
       const { email, password, username } = req.body;
+      const normalizedUsername = username?.trim().toLowerCase();
+      const existingUsername = await User.findOne({ username: normalizedUsername });
+      if (existingUsername) {
+        return res.status(409).json({ message: 'Username already in use' });
+      }
       const existing = await User.findOne({ email: email.toLowerCase() });
       if (existing) {
         return res.status(409).json({ message: 'Email already registered' });
@@ -44,7 +53,7 @@ router.post(
       const user = await User.create({
         email: email.toLowerCase(),
         password: passwordHash,
-        username,
+        username: normalizedUsername,
       });
 
       const token = signToken(user._id.toString(), user.email);
@@ -58,13 +67,31 @@ router.post(
 router.post(
   '/login',
   withValidation([
-    body('email').isEmail().withMessage('Valid email required'),
+    body('identity')
+      .optional({ checkFalsy: true })
+      .isString()
+      .withMessage('Email or username is required')
+      .bail()
+      .custom((value, { req }) => {
+        if ((value && value.trim()) || (req.body.email && String(req.body.email).trim())) {
+          return true;
+        }
+        throw new Error('Email or username is required');
+      }),
     body('password').notEmpty().withMessage('Password is required'),
   ]),
   async (req, res, next) => {
     try {
-      const { email, password } = req.body;
-      const user = await User.findOne({ email: email.toLowerCase() });
+      const rawIdentity = (req.body.identity ?? req.body.email ?? '').toString().trim();
+      const { password } = req.body;
+      if (!rawIdentity) {
+        return res.status(400).json({ message: 'Email or username is required' });
+      }
+
+      const normalized = rawIdentity.toLowerCase();
+      const user = await User.findOne({
+        $or: [{ email: normalized }, { username: normalized }],
+      });
       if (!user) {
         return res.status(401).json({ message: 'Invalid credentials' });
       }
@@ -101,7 +128,16 @@ router.put(
         return res.status(404).json({ message: 'User not found' });
       }
 
-      if (typeof req.body.username === 'string') user.username = req.body.username.trim() || undefined;
+      if (typeof req.body.username === 'string') {
+        const nextUsername = req.body.username.trim().toLowerCase();
+        if (nextUsername && nextUsername !== user.username) {
+          const existingUsername = await User.findOne({ username: nextUsername });
+          if (existingUsername && existingUsername.id !== user.id) {
+            return res.status(409).json({ message: 'Username already in use' });
+          }
+        }
+        user.username = nextUsername || undefined;
+      }
       if (typeof req.body.fullName === 'string') user.fullName = req.body.fullName.trim() || undefined;
       if (typeof req.body.avatarUrl === 'string') user.avatarUrl = req.body.avatarUrl.trim() || undefined;
 
