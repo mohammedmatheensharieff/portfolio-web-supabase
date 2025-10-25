@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { AdminAuthProvider, useAdminAuth } from './context/AdminAuthContext';
 import Navbar from './components/Navbar';
+import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import About from './pages/About';
 import Projects from './pages/Projects';
@@ -63,6 +64,7 @@ function App() {
       <AdminAuthProvider>
         <Router>
           <div className="min-h-screen bg-background-dark text-text-dark flex flex-col">
+            <ScrollToTop />
             <Navbar />
             <main className="flex-grow">
               <Routes>

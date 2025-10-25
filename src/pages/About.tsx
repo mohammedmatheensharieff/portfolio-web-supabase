@@ -1,185 +1,166 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  BadgeCheck,
-  BriefcaseIcon,
-  CheckCircle,
-  Cloud,
-  Code2,
-  Database,
-  Globe,
-  Laptop,
-  Layers,
-  Link as LinkIcon,
+  Activity,
+  ArrowRight,
+  Briefcase,
+  Calendar,
+  CheckCircle2,
+  CloudCog,
   Coins,
-  Monitor,
-  Shield,
+  Download,
+  Globe,
+  Layers,
+  ShieldCheck,
   Sparkles,
-  TrendingUp,
   Users,
 } from 'lucide-react';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
-const containerVariant = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
-const listVariant = {
-  hidden: {},
+const fade = {
+  hidden: { opacity: 0, y: 16 },
   show: {
-    transition: { staggerChildren: 0.1 },
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.25, 0.1, 0.25, 1] },
   },
 };
 
-const itemVariant = {
-  hidden: { opacity: 0, y: 15 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
-};
-
-const highlights = [
-  { label: 'Years Leading Transformation', value: '7+', icon: Sparkles },
-  { label: 'Cloud Migrations Delivered', value: '34', icon: Cloud },
-  { label: 'Automation Pipelines Deployed', value: '58', icon: Code2 },
-  { label: 'Spend Efficiency Gains', value: '28%', icon: Coins },
-];
-
-const narrative = [
-  "I help ambitious teams translate complex business challenges into resilient cloud architectures. I've led cross-functional squads from discovery to delivery, aligning infrastructure decisions with product goals and budget realities.",
-  "My sweet spot is where architecture, fullstack product delivery, DevOps, and security converge. I drive hands-on execution—codifying infrastructure, shaping DX for engineers, and installing feedback loops that help teams ship faster without sacrificing reliability.",
-  "These days I'm building adaptive multi-cloud environments, advising on FinOps strategies, and coaching teams on adopting modern engineering practices that stick.",
-];
-
-const experience = [
+const heroStats = [
   {
-    period: 'November 2022 — Present',
-    company: 'NirogStreet · Bengaluru, India',
-    title: 'DevOps Engineer',
-    achievements: [
-      'Lead cloud infrastructure and CI/CD automation across Jenkins, Terraform, and Kubernetes to ship fast, secure releases.',
-      'Own monitoring and observability stacks (Teleport, Psono, Jenkins, Grafana, Loki, Prometheus) that keep teams informed and resilient.',
-      'Drive FinOps strategy—from budgeting to forecasting—ensuring platform velocity aligns with responsible cloud spend.',
-    ],
+    label: 'Cloud transformations',
+    value: '34',
+    detail: 'End-to-end migrations shipped across AWS, Azure, GCP.',
   },
   {
-    period: 'September 2021 — November 2022',
-    company: 'HybridSkill (contracting with HCL) · Bengaluru, India',
-    title: 'Cloud Architect',
-    achievements: [
-      'Migrated on-prem workloads to AWS with auto-scaling, load balancing, and CloudWatch monitoring for performant, cost-efficient operations.',
-      'Implemented FinOps governance, educating teams on cloud management while reducing costs through right-sizing and visibility.',
-      'Architected resilient infrastructure that met compliance requirements and empowered development teams with self-service capabilities.',
-    ],
+    label: 'Automation pipelines',
+    value: '58',
+    detail: 'CI/CD tracks hardened with observability & guardrails.',
   },
   {
-    period: 'June 2021 — August 2021',
-    company: 'Saaspect · Bengaluru, India',
-    title: 'DevOps Engineer',
-    achievements: [
-      'Automated logs, backups, system updates, and deployments using Bash, curl, and Jenkins to minimize downtime and manual effort.',
-      'Integrated automation scripts into CI/CD pipelines, enabling seamless deployments and faster feedback loops for developers.',
-      'Introduced cron-based maintenance routines and monitoring, boosting platform stability and reliability.',
-    ],
-  },
-  {
-    period: 'March 2020 — May 2020',
-    company: 'EthicalByte (Uber project) · Remote',
-    title: 'Data Analyst',
-    achievements: [
-      'Analyzed Uber operations data using Python, Pandas, and NumPy to spot improvements in driver-partner performance and customer experience.',
-      'Built machine learning models for demand prediction and service optimization, boosting forecasting accuracy and decision-making.',
-      'Delivered dashboards and insights that helped stakeholders reduce resource allocation overhead and increase satisfaction metrics.',
-    ],
+    label: 'Spend efficiency',
+    value: '↑28%',
+    detail: 'Average improvement through FinOps frameworks & telemetry.',
   },
 ];
 
-const focusAreas = [
+const focusPillars = [
   {
-    title: 'Cloud Platforms',
-    icon: Globe,
-    items: ['AWS Advanced Networking Specialty', 'Azure Solutions Architect', 'Google Cloud Professional Architect'],
+    title: 'Platform Engineering',
+    caption: 'Calm, observable delivery engines',
+    icon: CloudCog,
+    points: [
+      'Blueprint pragmatic multi-cloud topologies and landing zones.',
+      'Codify infrastructure with Terraform, Pulumi, Crossplane.',
+      'Install golden paths that keep delivery aligned with compliance.',
+    ],
   },
   {
-    title: 'Fullstack Engineering',
-    icon: Monitor,
-    items: ['TypeScript + React delivery', 'Next.js & Vite production stacks', 'Design systems & DX tooling'],
-  },
-  {
-    title: 'Automation Toolkit',
-    icon: Code2,
-    items: ['Terraform & Pulumi', 'Crossplane & ArgoCD', 'GitHub Actions, GitLab CI, Jenkins'],
-  },
-  {
-    title: 'Resilience & Security',
-    icon: Shield,
-    items: ['Zero Trust design', 'Incident response playbooks', 'Kubernetes policy frameworks (OPA/Gatekeeper)'],
+    title: 'DevOps Leadership',
+    caption: 'Velocity without losing trust',
+    icon: Users,
+    points: [
+      'Coach teams on GitOps, progressive delivery, and incident response.',
+      'Wire telemetry (Grafana, Honeycomb, PagerDuty) into engineering rituals.',
+      'Run ship room sessions that translate metrics into action.',
+    ],
   },
   {
     title: 'FinOps & Economics',
+    caption: 'Spend transparency that sticks',
     icon: Coins,
-    items: ['Spend telemetry & forecasting', 'Showback/chargeback frameworks', 'FinOps Foundation practitioner'],
+    points: [
+      'Connect product usage to cost with Finout, Looker Studio, dbt.',
+      'Roll out showback/chargeback and budget guardrails that teams love.',
+      'Forecast cloud runway with ±5% confidence over 12+ weeks.',
+    ],
   },
 ];
 
-const ecosystem = [
+const experienceTimeline = [
+  {
+    period: 'Nov 2022 — Present',
+    role: 'Cloud Architect & DevOps Lead',
+    company: 'NirogStreet · Bengaluru',
+    highlights: [
+      'Lead infrastructure automation across Jenkins, Terraform, Kubernetes, securing dependable release cadences.',
+      'Own observability (Teleport, Grafana, Loki, Prometheus) to keep teams incident-ready.',
+      'Embed FinOps workflows that tie platform velocity to responsible spend.',
+    ],
+  },
+  {
+    period: 'Sep 2021 — Nov 2022',
+    role: 'Cloud Architect',
+    company: 'HybridSkill (HCL) · Bengaluru',
+    highlights: [
+      'Migrated legacy estates to AWS with auto-scaling, CloudWatch, and guardrails for compliance.',
+      'Launched FinOps governance and visibility dashboards embraced by engineering + finance.',
+      'Enabled self-service infrastructure that unblocked product teams.',
+    ],
+  },
+  {
+    period: 'Jun 2021 — Aug 2021',
+    role: 'DevOps Engineer',
+    company: 'Saaspect · Bengaluru',
+    highlights: [
+      'Automated backups, system updates, and deployments to slash operational toil.',
+      'Integrated automation into CI/CD for faster, safer feedback loops.',
+      'Established proactive monitoring and cron-based maintenance routines.',
+    ],
+  },
+  {
+    period: 'Mar 2020 — May 2020',
+    role: 'Data Analyst',
+    company: 'EthicalByte (Uber) · Remote',
+    highlights: [
+      'Analyzed operations data using Python & Pandas to surface performance opportunities.',
+      'Built demand models that improved forecasting accuracy for partners.',
+      'Delivered dashboards that shifted strategic resource allocation.',
+    ],
+  },
+];
+
+const toolkit = [
   {
     category: 'Languages & Runtime',
-    tools: ['TypeScript', 'Go', 'Python', 'Node.js', 'Bash'],
+    items: ['TypeScript', 'Go', 'Python', 'Node.js', 'Bash'],
+  },
+  {
+    category: 'Delivery & Automation',
+    items: ['Terraform', 'Pulumi', 'Crossplane', 'Argo CD', 'GitHub Actions', 'Jenkins'],
   },
   {
     category: 'Data & Messaging',
-    tools: ['PostgreSQL', 'MongoDB', 'Redis', 'Kafka', 'Supabase', 'BigQuery'],
+    items: ['PostgreSQL', 'Redis', 'Kafka', 'PlanetScale', 'BigQuery'],
   },
   {
-    category: 'Observability',
-    tools: ['Grafana', 'Prometheus', 'Elastic Stack', 'Datadog', 'Honeycomb', 'PagerDuty'],
+    category: 'Observability & Ops',
+    items: ['Grafana', 'Prometheus', 'Datadog', 'Honeycomb', 'PagerDuty', 'Elastic'],
   },
   {
-    category: 'Frontend & Product',
-    tools: ['React', 'Next.js', 'Vite', 'Tailwind', 'Storybook', 'Framer Motion'],
+    category: 'Frontend & DX',
+    items: ['React', 'Next.js', 'Vite', 'Tailwind', 'Storybook', 'Framer Motion'],
   },
   {
     category: 'FinOps & Analytics',
-    tools: ['AWS Cost Explorer', 'Azure Cost Management', 'CloudHealth', 'Finout', 'Looker Studio', 'dbt'],
-  },
-  {
-    category: 'Collaboration & Delivery',
-    tools: ['Linear', 'Jira', 'Confluence', 'Notion', 'Miro', 'Slack'],
-  },
-  {
-    category: 'Cloud Platforms',
-    tools: ['AWS', 'Google Cloud', 'Microsoft Azure', 'DigitalOcean', 'Linode', 'OpenStack'],
+    items: ['Finout', 'AWS Cost Explorer', 'Azure Cost Management', 'Looker Studio', 'dbt'],
   },
 ];
 
 const recognitions = [
   {
-    title: 'AWS Solutions Architect Associate (Learning Path)',
+    title: 'AWS Solutions Architect — Associate (Learning Path)',
     issuer: 'Amazon Web Services',
     year: 2023,
   },
   {
-    title: 'ACE: Associate Cloud Engineer',
+    title: 'Associate Cloud Engineer',
     issuer: 'Google Cloud',
     year: 2021,
   },
   {
-    title: 'The Complete 2024 Web Development Bootcamp',
-    issuer: 'Udemy',
-    year: 2024,
-  },
-  {
-    title: 'Essential Google Cloud Infrastructure: Core Services',
-    issuer: 'Google Cloud Skill Boost',
-    year: 2021,
-  },
-  {
-    title: 'Essential Google Cloud Infrastructure: Foundation',
-    issuer: 'Google Cloud Skill Boost',
-    year: 2021,
-  },
-  {
-    title: 'Google Cloud Fundamentals: Core Infrastructure',
+    title: 'Google Cloud Infrastructure (Core Services)',
     issuer: 'Google Cloud Skill Boost',
     year: 2021,
   },
@@ -194,21 +175,6 @@ const recognitions = [
     year: 2020,
   },
   {
-    title: 'Android Application Development',
-    issuer: 'Udemy',
-    year: 2021,
-  },
-  {
-    title: 'Annual Privacy & Information Security Training (PS-001)',
-    issuer: 'Google',
-    year: 2021,
-  },
-  {
-    title: 'Global English Certification',
-    issuer: 'Sutherland Global Services',
-    year: 2020,
-  },
-  {
     title: 'Cyber Security Awareness (ANSEC)',
     issuer: 'Safex ANSEC',
     year: 2022,
@@ -217,244 +183,239 @@ const recognitions = [
 
 export default function About() {
   useDocumentTitle('About — Mohammed Matheen');
+
   return (
-    <div className="max-w-6xl mx-auto py-12 px-4 lg:px-6">
-      <motion.section variants={containerVariant} initial="hidden" animate="show" className="mb-16">
-        <div className="grid lg:grid-cols-[3fr,2fr] gap-10">
-          <div>
-            <p className="uppercase tracking-[0.35em] text-xs text-gradient-start mb-3">Cloud Architect · DevOps Lead</p>
-            <h1 className="text-4xl sm:text-5xl font-semibold text-white leading-tight mb-6">
-              Building resilient platforms where engineering momentum and business outcomes stay aligned.
-            </h1>
-            <div className="space-y-4">
-              {narrative.map((paragraph, idx) => (
-                <p key={idx} className="text-gray-300 leading-relaxed">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }} className="mt-8 flex flex-wrap gap-4">
-              <a
-                href="/mohammed.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-gradient-start to-gradient-end text-black px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300"
-              >
-                <Layers size={20} />
-                Download Full Resume
-              </a>
-              <motion.a
-                href="/contact"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.97 }}
-                className="inline-flex items-center gap-2 border border-gradient-start/60 px-6 py-3 rounded-lg font-medium text-gray-200 hover:border-white hover:text-white transition-all duration-300"
-              >
-                <BriefcaseIcon size={20} />
-                Discuss a Project
-              </motion.a>
-            </motion.div>
-          </div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative bg-gray-900/50 rounded-2xl border border-gray-800 overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-gradient-start/30 via-transparent to-gradient-end/30 opacity-80" />
-            <div className="relative p-8 space-y-6">
-              <div>
-                <span className="text-sm uppercase tracking-wide text-gray-400">Current Mission</span>
-                <p className="text-lg text-white mt-2">
-                  Architecting zero-downtime delivery systems, FinOps guardrails, and community programs that help teams scale with confidence.
-                </p>
-              </div>
-              <motion.ul
-                variants={listVariant}
-                initial="hidden"
-                animate="show"
-                className="grid grid-cols-2 gap-4"
-              >
-                {highlights.map((highlight) => (
-                  <motion.li
-                    key={highlight.label}
-                    variants={itemVariant}
-                    whileHover={{ y: -4, scale: 1.02 }}
-                    transition={{ type: 'spring', stiffness: 240, damping: 18 }}
-                    className="rounded-xl bg-gray-950/60 border border-gray-800 px-4 py-5 transition hover:border-gradient-start/50 hover:bg-gradient-start/5 hover:shadow-[0_12px_28px_rgba(99,102,241,0.22)]"
-                  >
-                    <span className="flex items-center gap-2 text-gray-400 text-xs uppercase tracking-wide mb-2 transition group-hover:text-gradient-start">
-                      {React.createElement(highlight.icon, { size: 16, className: 'text-gradient-start' })}
-                      {highlight.label}
-                    </span>
-                    <span className="text-2xl font-semibold text-white">{highlight.value}</span>
-                  </motion.li>
-                ))}
-              </motion.ul>
-            </div>
-          </motion.div>
-        </div>
-      </motion.section>
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-background-dark via-black to-background-dark pb-20 pt-20">
+      <div className="pointer-events-none absolute inset-0 -z-20">
+        <div className="absolute -top-32 left-1/3 h-80 w-80 rounded-full bg-gradient-start/25 blur-[140px]" />
+        <div className="absolute bottom-0 right-1/4 h-80 w-80 rounded-full bg-gradient-end/15 blur-[120px]" />
+      </div>
 
-      <motion.section variants={containerVariant} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} className="mb-16">
-        <div className="flex items-center gap-3 mb-6">
-          <TrendingUp className="text-gradient-start" size={24} />
-          <h2 className="text-3xl font-semibold text-white">Experience Timeline</h2>
-        </div>
-        <div className="space-y-6">
-          {experience.map((role) => (
-            <motion.article
-              key={`${role.company}-${role.period}`}
-              variants={itemVariant}
-              whileHover={{ y: -6, scale: 1.01 }}
-              transition={{ type: 'spring', stiffness: 240, damping: 20 }}
-              className="group rounded-2xl border border-gray-800 bg-gray-900/40 p-6 lg:p-8 transition hover:border-gradient-start/60 hover:bg-gradient-start/5 hover:shadow-[0_18px_36px_rgba(99,102,241,0.2)]"
-            >
-              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 mb-4">
-                <div>
-                  <h3 className="text-2xl font-semibold text-white transition group-hover:text-gradient-start">{role.title}</h3>
-                  <p className="text-gray-400 text-sm uppercase tracking-wide">{role.company}</p>
-                </div>
-                <span className="text-sm font-medium text-gradient-start">{role.period}</span>
-              </div>
-              <ul className="space-y-2 text-gray-300 leading-relaxed">
-                {role.achievements.map((achievement) => (
-                  <li key={achievement} className="flex gap-3">
-                    <CheckCircle size={18} className="mt-1 text-gradient-start flex-shrink-0 transition group-hover:scale-110" />
-                    <span>{achievement}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.article>
-          ))}
-        </div>
-      </motion.section>
-
-      <motion.section variants={containerVariant} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} className="mb-16">
-        <div className="flex items-center gap-3 mb-6">
-          <BadgeCheck className="text-gradient-start" size={24} />
-          <h2 className="text-3xl font-semibold text-white">Focus Areas</h2>
-        </div>
-        <motion.div
-          variants={listVariant}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+      <div className="mx-auto flex max-w-6xl flex-col gap-12 px-4 sm:px-6">
+        <motion.section
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45 }}
+          className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl shadow-black/40 backdrop-blur"
         >
-          {focusAreas.map((area) => (
-            <motion.div
-              key={area.title}
-              variants={itemVariant}
-              whileHover={{ y: -6, scale: 1.02 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 18 }}
-              className="group rounded-2xl border border-gray-800 bg-gray-900/40 p-6 transition hover:border-gradient-start/60 hover:bg-gradient-start/5 hover:shadow-[0_15px_30px_rgba(99,102,241,0.25)]"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                {React.createElement(area.icon, { size: 24, className: 'text-gradient-start transition group-hover:scale-110' })}
-                <h3 className="text-xl font-semibold text-white transition group-hover:text-gradient-start">{area.title}</h3>
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 rounded-3xl bg-gradient-to-l from-gradient-end/20 via-transparent to-transparent" />
+          <div className="grid gap-10 lg:grid-cols-[1.4fr,1fr]">
+            <div className="space-y-6">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[11px] uppercase tracking-[0.38em] text-white/70">
+                <Sparkles className="h-3.5 w-3.5 text-gradient-start" />
+                Cloud · DevOps · FinOps · Fullstack
+              </span>
+              <h1 className="text-3xl font-semibold text-white sm:text-4xl">
+                I help founders and engineering teams ship calm platforms where architecture, DevOps, FinOps, and product
+                engineering move together.
+              </h1>
+              <p className="text-sm text-gray-300 sm:text-base">
+                Migrations, delivery engines, spend telemetry, and customer-facing apps—handled as one program. I blend
+                hands-on engineering with enablement so modern practices sustain long after launch.
+              </p>
+              <div className="flex flex-wrap items-center gap-4">
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end px-6 py-3 text-sm font-semibold text-background-dark shadow-lg shadow-gradient-mid/30 transition hover:-translate-y-0.5 hover:shadow-gradient-mid/40"
+                >
+                  <Briefcase className="h-4 w-4" />
+                  Discuss a project
+                </Link>
+                <a
+                  href="/mohammed.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-gray-200 transition hover:border-white/40 hover:text-white"
+                >
+                  <Download className="h-4 w-4" />
+                  Download resume
+                </a>
               </div>
-              <ul className="space-y-3 text-gray-300 leading-relaxed">
-                {area.items.map((item) => (
-                  <li key={item} className="flex gap-2">
-                    <span className="text-gradient-start text-sm mt-1">•</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </motion.div>
-      </motion.section>
+            </div>
 
-      <motion.section variants={containerVariant} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }} className="mb-16">
-        <div className="flex items-center gap-3 mb-6">
-          <LinkIcon className="text-gradient-start" size={24} />
-          <h2 className="text-3xl font-semibold text-white">Ecosystem & Tooling</h2>
-        </div>
-        <div className="rounded-3xl border border-gray-800 bg-gray-900/30 p-6 lg:p-8">
-          <div className="grid md:grid-cols-2 gap-8">
-            {ecosystem.map((group) => (
+            <div className="rounded-2xl border border-white/10 bg-black/50 p-6">
+              <div className="space-y-5">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.35em] text-gray-400">Current Mission</p>
+                  <p className="mt-2 text-sm text-gray-200">
+                    Architecting zero-downtime delivery systems, embedding FinOps guardrails, and coaching teams to keep
+                    progress measurable after launch.
+                  </p>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-3">
+                  {heroStats.map((stat) => (
+                    <div key={stat.label} className="rounded-xl border border-white/10 bg-black/40 p-4">
+                      <p className="text-xs uppercase tracking-[0.32em] text-gray-400">{stat.label}</p>
+                      <p className="mt-2 text-xl font-semibold text-white">{stat.value}</p>
+                      <p className="mt-1 text-[11px] text-gray-400">{stat.detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.section>
+
+        <motion.section variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }}>
+          <div className="mb-8 flex items-center gap-3">
+            <ShieldCheck className="h-6 w-6 text-gradient-start" />
+            <h2 className="text-3xl font-semibold text-white">How I operate</h2>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {focusPillars.map((pillar) => (
+              <motion.div
+                key={pillar.title}
+                variants={fade}
+                whileHover={{ y: -6 }}
+                className="group rounded-2xl border border-white/10 bg-black/40 p-6 transition hover:border-gradient-start/60"
+              >
+                <div className="flex items-center gap-3">
+                  {React.createElement(pillar.icon, {
+                    className: 'h-5 w-5 text-gradient-start transition group-hover:scale-110',
+                  })}
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.32em] text-gray-400">{pillar.caption}</p>
+                    <h3 className="text-lg font-semibold text-white">{pillar.title}</h3>
+                  </div>
+                </div>
+                <ul className="mt-4 space-y-3 text-sm text-gray-300">
+                  {pillar.points.map((point) => (
+                    <li key={point} className="flex gap-2">
+                      <CheckCircle2 className="mt-[2px] h-4 w-4 flex-shrink-0 text-gradient-start" />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        <motion.section variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}>
+          <div className="mb-8 flex items-center gap-3">
+            <Briefcase className="h-6 w-6 text-gradient-start" />
+            <h2 className="text-3xl font-semibold text-white">Experience timeline</h2>
+          </div>
+          <div className="relative space-y-6 border-l border-white/10 pl-6">
+            <span className="absolute left-0 top-2 h-3 w-3 -translate-x-[7px] rounded-full bg-gradient-start" />
+            {experienceTimeline.map((item, index) => (
+              <motion.article
+                key={`${item.company}-${item.period}`}
+                variants={fade}
+                whileHover={{ y: -4 }}
+                className="relative rounded-2xl border border-white/10 bg-black/35 p-6 shadow-lg shadow-black/20"
+              >
+                <span className="absolute left-[-13px] top-6 h-3 w-3 rounded-full border border-gradient-start bg-background-dark" />
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.32em] text-gray-400">{item.period}</p>
+                    <h3 className="mt-2 text-xl font-semibold text-white">{item.role}</h3>
+                    <p className="text-sm text-gray-400">{item.company}</p>
+                  </div>
+                <div className="flex items-center gap-2 text-xs text-gray-400">
+                  <Calendar className="h-3.5 w-3.5 text-gradient-start" />
+                  {item.period}
+                </div>
+                </div>
+                <ul className="mt-4 space-y-2 text-sm text-gray-300">
+                  {item.highlights.map((highlight) => (
+                    <li key={highlight} className="flex gap-2">
+                      <ArrowRight className="mt-1 h-3 w-3 flex-shrink-0 text-gradient-start" />
+                      <span>{highlight}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.article>
+            ))}
+          </div>
+        </motion.section>
+
+        <motion.section variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}>
+          <div className="mb-8 flex items-center gap-3">
+            <Layers className="h-6 w-6 text-gradient-start" />
+            <h2 className="text-3xl font-semibold text-white">Toolkit & operating system</h2>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2">
+            {toolkit.map((group) => (
               <motion.div
                 key={group.category}
-                whileHover={{ y: -4, scale: 1.01 }}
-                className="space-y-3 rounded-2xl border border-white/5 bg-black/30 p-4 transition hover:border-gradient-start/50 hover:bg-gradient-start/5"
+                variants={fade}
+                whileHover={{ y: -4 }}
+                className="rounded-2xl border border-white/10 bg-black/30 p-6 transition hover:border-gradient-start/60"
               >
-                <p className="text-sm uppercase tracking-wide text-gray-400 transition group-hover:text-gradient-start">
-                  {group.category}
-                </p>
-                <motion.div
-                  className="flex flex-wrap gap-2"
-                  whileHover={{}}
-                >
-                  {group.tools.map((tool) => (
+                <p className="text-sm uppercase tracking-[0.32em] text-gray-400">{group.category}</p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {group.items.map((tool) => (
                     <span
                       key={tool}
-                      className="px-3 py-1.5 rounded-full border border-gray-700 text-sm text-gray-200 bg-gray-950/60 transition hover:border-gradient-start/60 hover:text-white"
+                      className="rounded-full border border-white/10 bg-black/40 px-3 py-1 text-xs text-gray-200 transition hover:border-gradient-start/60 hover:text-white"
                     >
                       {tool}
                     </span>
                   ))}
-                </motion.div>
+                </div>
               </motion.div>
             ))}
           </div>
-        </div>
-      </motion.section>
+        </motion.section>
 
-      <motion.section variants={containerVariant} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }} className="mb-16">
-        <div className="flex items-center gap-3 mb-6">
-          <Laptop className="text-gradient-start" size={24} />
-          <h2 className="text-3xl font-semibold text-white">Recognitions & Community</h2>
-        </div>
-        <div className="grid md:grid-cols-3 gap-6">
-          {recognitions.map((item) => (
-            <motion.div
-              key={item.title}
-              variants={itemVariant}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.4 }}
-              whileHover={{ y: -6, scale: 1.02 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 18 }}
-              className="group rounded-2xl border border-gray-800 bg-gray-900/40 p-6 transition hover:border-gradient-start/60 hover:bg-gradient-start/5 hover:shadow-[0_15px_30px_rgba(99,102,241,0.25)]"
-            >
-              <p className="text-sm uppercase tracking-wide text-gray-400 group-hover:text-gradient-start transition">{item.year}</p>
-              <h3 className="text-lg font-semibold text-white mt-3 mb-2 transition group-hover:text-gradient-start">{item.title}</h3>
-              <p className="text-gray-400 text-sm">{item.issuer}</p>
-            </motion.div>
-          ))}
-        </div>
-      </motion.section>
-
-      <motion.section
-        variants={containerVariant}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.3 }}
-        className="rounded-3xl border border-gray-800 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 px-8 py-10 lg:px-12 lg:py-14"
-      >
-        <div className="grid lg:grid-cols-[2fr,1fr] gap-8 lg:gap-12 items-center">
-          <div>
-            <h2 className="text-3xl font-semibold text-white mb-4">Let&apos;s shape your next platform launch.</h2>
-            <p className="text-gray-300 leading-relaxed">
-              I partner with founders, engineering leaders, and platform teams to deliver adaptive cloud systems, lean
-              DevOps practices, and security-first roadmaps. If you are scaling and need a co-pilot who can translate
-              ambition into a resilient delivery engine, we should talk.
-            </p>
+        <motion.section variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}>
+          <div className="mb-8 flex items-center gap-3">
+            <Globe className="h-6 w-6 text-gradient-start" />
+            <h2 className="text-3xl font-semibold text-white">Certifications & community</h2>
           </div>
-          <motion.div className="flex lg:justify-end">
-            <motion.a
-              href="/contact"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-gradient-start to-gradient-end text-black px-8 py-4 rounded-lg font-medium hover:shadow-lg transition-all duration-300"
-            >
-              <BriefcaseIcon size={20} />
-              Start the Conversation
-            </motion.a>
-          </motion.div>
-        </div>
-      </motion.section>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {recognitions.map((item) => (
+              <motion.div
+                key={`${item.title}-${item.year}`}
+                variants={fade}
+                whileHover={{ y: -4 }}
+                className="rounded-2xl border border-white/10 bg-black/35 p-6 transition hover:border-gradient-start/60"
+              >
+                <p className="text-xs uppercase tracking-[0.32em] text-gray-400">{item.year}</p>
+                <h3 className="mt-3 text-lg font-semibold text-white">{item.title}</h3>
+                <p className="mt-2 text-sm text-gray-400">{item.issuer}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        <motion.section variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}>
+          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl shadow-black/30">
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 rounded-3xl bg-gradient-to-l from-gradient-end/20 via-transparent to-transparent" />
+            <div className="grid gap-8 lg:grid-cols-[1.2fr,0.8fr] lg:items-center">
+              <div>
+                <p className="text-xs uppercase tracking-[0.35em] text-gray-400">Next Step</p>
+                <h2 className="mt-3 text-3xl font-semibold text-white">
+                  Ready to align platform velocity with business outcomes?
+                </h2>
+                <p className="mt-4 text-sm text-gray-300">
+                  Whether you need a partner to lead a migration, bootstrap platform engineering, or tighten FinOps &
+                  incident response loops, I can help your team move confidently.
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-4">
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end px-6 py-3 text-sm font-semibold text-background-dark shadow-lg shadow-gradient-mid/30 transition hover:-translate-y-0.5 hover:shadow-gradient-mid/40"
+                >
+                  <Briefcase className="h-4 w-4" />
+                  Start a conversation
+                </Link>
+                <a
+                  href="/mohammed.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-gray-200 transition hover:border-white/40 hover:text-white"
+                >
+                  <Layers className="h-4 w-4" />
+                  View full CV
+                </a>
+              </div>
+            </div>
+          </div>
+        </motion.section>
+      </div>
     </div>
   );
 }

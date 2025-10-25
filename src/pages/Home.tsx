@@ -1,126 +1,268 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, ArrowRight, Rocket, Sparkles, Cloud, Server, ShieldCheck, Coins, Code2 } from 'lucide-react';
+import {
+  Activity,
+  ArrowRight,
+  BarChart3,
+  Cloud,
+  CloudCog,
+  Code2,
+  Coins,
+  Rocket,
+  ShieldCheck,
+  Sparkles,
+  Users,
+} from 'lucide-react';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
-const socials = [
-  { icon: <Github size={18} />, label: 'GitHub', href: 'https://github.com/mohammedmatheensharieff' },
-  { icon: <Linkedin size={18} />, label: 'LinkedIn', href: 'https://www.linkedin.com/in/mohammedmatheensharieff/' },
-  { icon: <Mail size={18} />, label: 'Email', href: 'mailto:mohammed@zoeencloud.in' },
-];
-
-const highlights = [
-  { icon: <Cloud size={18} />, title: 'Cloud Platform Architect', detail: 'Multi-cloud topologies, network design, and scalability by default.' },
-  { icon: <Server size={18} />, title: 'DevOps & SRE Lead', detail: 'CI/CD velocity, GitOps automation, and observability that drives action.' },
-  { icon: <Code2 size={18} />, title: 'Fullstack Product Engineer', detail: 'Product-ready web experiences with performant APIs and DX tooling.' },
-  { icon: <Coins size={18} />, title: 'FinOps & Cloud Economics', detail: 'Cost intelligence, spend telemetry, and value dashboards for leadership.' },
-  { icon: <ShieldCheck size={18} />, title: 'Reliability & Security', detail: 'Resilience engineering, incident readiness, and secure guardrails.' },
-];
-
 const fade = {
-  hidden: { opacity: 0, y: 18 },
+  hidden: { opacity: 0, y: 16 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: [0.6, 0, 0.2, 1] },
+    transition: { duration: 0.45, ease: [0.25, 0.1, 0.25, 1] },
   },
 };
+
+const heroStats = [
+  { label: 'Cloud migrations shipped', value: '34', icon: Activity },
+  { label: 'Automation pipelines', value: '58', icon: BarChart3 },
+  { label: 'Average spend saved', value: '40%', icon: Coins },
+  { label: 'Reliability targets met', value: '99.95%', icon: ShieldCheck },
+];
+
+const pillars = [
+  {
+    category: 'Cloud Architecture',
+    icon: CloudCog,
+    summary: 'Multi-cloud landing zones, resilient networking, and blueprint governance that scales.',
+    bullets: [
+      'Design pragmatic AWS, Azure, and GCP architectures with redundancy by default.',
+      'Codify infrastructure with Terraform, Pulumi, Crossplane, and policy guardrails.',
+      'Launch observability-first platforms with service catalogues and golden path templates.',
+    ],
+  },
+  {
+    category: 'DevOps & SRE',
+    icon: Users,
+    summary: 'Velocity with control—CI/CD foundations, GitOps, and incident-ready telemetry.',
+    bullets: [
+      'Build progressive delivery workflows with automated testing and safe rollbacks.',
+      'Instrument alerting and tracing (Grafana, Honeycomb, PagerDuty) that guide teams.',
+      'Lead runbooks, chaos drills, and ship-room reviews that keep momentum calm.',
+    ],
+  },
+  {
+    category: 'FinOps & Economics',
+    icon: Coins,
+    summary: 'Spend clarity that teams adopt—telemetry, showback, and forecasting within ±5%.',
+    bullets: [
+      'Connect product usage to cloud cost using Finout, Looker Studio, and dbt.',
+      'Implement budget guards, alerts, and executive dashboards leaders rely on.',
+      'Coach engineers on unit economics so shipping decisions align with runway.',
+    ],
+  },
+  {
+    category: 'Fullstack Product Delivery',
+    icon: Code2,
+    summary: 'Composable TypeScript stacks, API design, and customer experiences ready for prime time.',
+    bullets: [
+      'Ship React/Next.js frontends with design systems and performance baked in.',
+      'Build Node/Express APIs, Postgres backends, and automation that connect to CI.',
+      'Embed DX tooling and docs so teams iterate confidently after launch.',
+    ],
+  },
+];
+
+const capabilityHighlights = [
+  {
+    icon: <Cloud className="h-5 w-5" />,
+    title: 'Cloud Platforms',
+    detail: 'Full-stack expertise across AWS, Azure, GCP, curated for high availability and compliance.',
+  },
+  {
+    icon: <Users className="h-5 w-5" />,
+    title: 'Team Enablement',
+    detail: 'Playbooks, workshops, and leadership coaching that make modern practices stick.',
+  },
+  {
+    icon: <ShieldCheck className="h-5 w-5" />,
+    title: 'Reliability & Security',
+    detail: 'Incident response, chaos engineering, and zero-trust guardrails woven through every stack.',
+  },
+  {
+    icon: <Coins className="h-5 w-5" />,
+    title: 'FinOps Integration',
+    detail: 'Spend telemetry, dashboards, and cost culture adopted by engineering and finance alike.',
+  },
+  {
+    icon: <Code2 className="h-5 w-5" />,
+    title: 'Product Engineering',
+    detail: 'Customer-facing portals, APIs, and automation pipelines shipping from idea to production.',
+  },
+];
 
 export default function Home() {
   useDocumentTitle('Mohammed Matheen — Cloud Architect & DevOps Lead');
 
   return (
-    <div className="relative overflow-hidden bg-gradient-to-b from-background-dark via-gray-950 to-background-dark">
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute -top-24 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-gradient-to-br from-gradient-start/20 via-gradient-mid/10 to-gradient-end/20 blur-[120px]" />
-        <div className="absolute bottom-0 right-0 h-64 w-64 rounded-full bg-gradient-to-br from-gradient-mid/20 via-gradient-start/10 to-gradient-end/20 blur-[120px]" />
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-background-dark via-black to-background-dark pb-20 pt-20">
+      <div className="pointer-events-none absolute inset-0 -z-20">
+        <div className="absolute -top-36 left-1/4 h-80 w-80 rounded-full bg-gradient-start/25 blur-[140px]" />
+        <div className="absolute bottom-0 right-1/5 h-80 w-80 rounded-full bg-gradient-end/15 blur-[120px]" />
       </div>
 
-      <motion.section
-        variants={fade}
-        initial="hidden"
-        animate="show"
-        className="mx-auto flex min-h-[calc(100vh-4rem)] max-w-5xl flex-col items-center justify-center px-5 text-center sm:px-6"
-      >
-        <motion.div
-          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.35em] text-gray-300"
-          variants={fade}
+      <div className="mx-auto flex max-w-6xl flex-col gap-14 px-4 sm:px-6">
+        <motion.section
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45 }}
+          className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl shadow-black/40 backdrop-blur"
         >
-          <Sparkles size={14} className="text-gradient-start" />
-          Cloud Architect · DevOps Lead · FinOps
-        </motion.div>
-
-        <motion.h1
-          variants={fade}
-          className="mt-8 text-4xl font-semibold text-white sm:text-5xl lg:text-6xl"
-        >
-          Designing modern cloud platforms that ship fast and stay dependable.
-        </motion.h1>
-
-        <motion.p
-          variants={fade}
-          className="mt-6 max-w-3xl text-base text-gray-400 sm:text-lg"
-        >
-          I help teams launch resilient experiences across AWS, Azure, and GCP by pairing automation and FinOps guardrails.
-          Think ship-ready infrastructure, stress-tested delivery, and spend transparency that keeps teams in control.
-        </motion.p>
-
-        <motion.div variants={fade} className="mt-10 flex flex-wrap justify-center gap-4">
-          <a
-            href="/contact"
-            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end px-6 py-3 text-sm font-semibold text-background-dark shadow-lg shadow-gradient-mid/30 transition hover:-translate-y-0.5 hover:shadow-gradient-mid/40"
-          >
-            <Rocket size={18} />
-            Build Together
-          </a>
-          <a
-            href="/projects"
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 px-6 py-3 text-sm font-semibold text-gray-200 transition hover:border-white/30 hover:text-white"
-          >
-            <ArrowRight size={18} />
-            Recent Work
-          </a>
-        </motion.div>
-
-        <motion.div variants={fade} className="mt-10 flex flex-wrap justify-center gap-3 text-xs text-gray-400">
-          {socials.map((social) => (
-            <motion.a
-              key={social.label}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ y: -4, scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
-              className="group inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 font-semibold transition hover:border-white/30 hover:text-white"
-            >
-              <span className="rounded-full bg-gradient-to-br from-gradient-start/40 via-gradient-mid/40 to-gradient-end/40 p-1 text-background-dark transition group-hover:from-gradient-start group-hover:via-gradient-mid group-hover:to-gradient-end">
-                {social.icon}
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 rounded-3xl bg-gradient-to-l from-gradient-end/20 via-transparent to-transparent" />
+          <div className="grid gap-10 lg:grid-cols-[1.4fr,1fr]">
+            <div className="space-y-6">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[11px] uppercase tracking-[0.38em] text-white/70">
+                <Sparkles className="h-3.5 w-3.5 text-gradient-start" />
+                Cloud · DevOps · FinOps · Fullstack
               </span>
-              {social.label}
-            </motion.a>
-          ))}
-        </motion.div>
+              <h1 className="text-3xl font-semibold text-white sm:text-4xl">
+                Partnering with teams to ship modern cloud platforms, compassionate DevOps, trusted FinOps, and polished
+                product experiences.
+              </h1>
+              <p className="text-sm text-gray-300 sm:text-base">
+                From blueprint to production, I blend architecture, automation, economics, and customer-facing software
+                so launches feel calm, observable, and accountable to the business.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end px-6 py-3 text-sm font-semibold text-background-dark shadow-lg shadow-gradient-mid/30 transition hover:-translate-y-0.5 hover:shadow-gradient-mid/40"
+                >
+                  <Rocket className="h-4 w-4" />
+                  Build together
+                </Link>
+                <Link
+                  to="/projects"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-gray-200 transition hover:border-white/40 hover:text-white"
+                >
+                  <ArrowRight className="h-4 w-4" />
+                  View case studies
+                </Link>
+              </div>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-black/50 p-6">
+              <p className="text-xs uppercase tracking-[0.32em] text-gray-400">Signal board</p>
+              <p className="mt-3 text-sm text-gray-200">
+                A quick readout from recent programs: runway protected, reliability tightened, and releases accelerated.
+              </p>
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                {heroStats.map((stat) => (
+                  <div key={stat.label} className="rounded-xl border border-white/10 bg-black/40 p-4">
+                    {React.createElement(stat.icon, { className: 'h-4 w-4 text-gradient-start' })}
+                    <p className="mt-3 text-2xl font-semibold text-white">{stat.value}</p>
+                    <p className="mt-1 text-xs uppercase tracking-[0.32em] text-gray-400">{stat.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.section>
 
-        <motion.div
-          variants={fade}
-          className="mt-14 grid w-full gap-4 rounded-3xl border border-white/10 bg-white/5 p-6 sm:grid-cols-2 lg:grid-cols-5"
-        >
-          {highlights.map((item) => (
-            <motion.div
-              key={item.title}
-              whileHover={{ y: -6, scale: 1.02 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 18 }}
-              className="group flex flex-col items-center gap-3 rounded-2xl border border-white/5 bg-black/30 px-4 py-6 text-center shadow-transparent transition hover:border-gradient-start/60 hover:shadow-[0px_12px_30px_rgba(99,102,241,0.25)]"
-            >
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-gradient-start/30 via-gradient-mid/25 to-gradient-end/30 text-white transition group-hover:from-gradient-start group-hover:via-gradient-mid group-hover:to-gradient-end">
-                {item.icon}
-              </span>
-              <p className="text-sm font-semibold text-white transition group-hover:text-gradient-start">{item.title}</p>
-              <p className="text-xs text-gray-400">{item.detail}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </motion.section>
+        <motion.section variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}>
+          <div className="mb-8 flex items-center gap-3">
+            <ShieldCheck className="h-6 w-6 text-gradient-start" />
+            <h2 className="text-3xl font-semibold text-white">End-to-end delivery frame</h2>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2">
+            {pillars.map((pillar) => (
+              <motion.div
+                key={pillar.title}
+                variants={fade}
+                whileHover={{ y: -6 }}
+                className="group rounded-2xl border border-white/10 bg-black/40 p-6 transition hover:border-gradient-start/60"
+              >
+                <div className="flex items-center gap-3">
+                  {React.createElement(pillar.icon, {
+                    className: 'h-5 w-5 text-gradient-start transition group-hover:scale-110',
+                  })}
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.32em] text-gray-400">{pillar.category}</p>
+                    <h3 className="text-lg font-semibold text-white">{pillar.summary}</h3>
+                  </div>
+                </div>
+                <ul className="mt-5 space-y-3 text-sm text-gray-300">
+                  {pillar.bullets.map((bullet) => (
+                    <li key={bullet} className="flex gap-2">
+                      <ArrowRight className="mt-[2px] h-3.5 w-3.5 flex-shrink-0 text-gradient-start" />
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        <motion.section variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}>
+          <div className="mb-8 flex items-center gap-3">
+            <Sparkles className="h-6 w-6 text-gradient-start" />
+            <h2 className="text-3xl font-semibold text-white">Where I plug in</h2>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {capabilityHighlights.map((capability) => (
+              <motion.div
+                key={capability.title}
+                variants={fade}
+                whileHover={{ y: -6 }}
+                className="rounded-2xl border border-white/10 bg-black/40 p-6 transition hover:border-gradient-start/60"
+              >
+                <div className="flex items-center gap-3 text-white">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-gradient-start/30 via-gradient-mid/25 to-gradient-end/30 text-white">
+                    {capability.icon}
+                  </span>
+                  <h3 className="text-lg font-semibold">{capability.title}</h3>
+                </div>
+                <p className="mt-3 text-sm text-gray-300">{capability.detail}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        <motion.section variants={fade} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}>
+          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl shadow-black/30">
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 rounded-3xl bg-gradient-to-l from-gradient-end/20 via-transparent to-transparent" />
+            <div className="grid gap-8 lg:grid-cols-[1.2fr,0.8fr] lg:items-center">
+              <div>
+                <p className="text-xs uppercase tracking-[0.35em] text-gray-400">Invite</p>
+                <h2 className="mt-3 text-3xl font-semibold text-white">
+                  Need a partner to align infrastructure, delivery, and FinOps?
+                </h2>
+                <p className="mt-4 text-sm text-gray-300">
+                  I plug in as an engineering co-pilot—shaping strategy, writing code, and coaching teams—so the systems
+                  we ship stay healthy long after launch.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-4">
+                <Link
+                  to="/projects"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-gray-200 transition hover:border-white/40 hover:text-white"
+                >
+                  Explore case studies
+                </Link>
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end px-6 py-3 text-sm font-semibold text-background-dark shadow-lg shadow-gradient-mid/30 transition hover:-translate-y-0.5 hover:shadow-gradient-mid/40"
+                >
+                  <Rocket className="h-4 w-4" />
+                  Start a conversation
+                </Link>
+              </div>
+            </div>
+          </div>
+        </motion.section>
+      </div>
     </div>
   );
 }

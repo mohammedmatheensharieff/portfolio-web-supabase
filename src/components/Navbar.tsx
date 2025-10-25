@@ -1,43 +1,47 @@
-import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, Cloud, Sparkles } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { Menu, X, Cloud, Sparkles, CloudCog, Coins, Code2, ShieldCheck, NotebookPen } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { useAdminAuth } from '../context/AdminAuthContext';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, logout } = useAuth();
-  const { admin, logout: adminLogout } = useAdminAuth();
-  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { admin } = useAdminAuth();
   const location = useLocation();
-
-  const handleLogout = async () => {
-    try {
-      await adminLogout();
-    } catch (error) {
-      // ignore admin logout errors
-    }
-    logout();
-    navigate('/');
-  };
 
   const hasAdminAccess = Boolean(admin) || user?.role === 'admin';
 
-  const baseNavItems = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Projects', path: '/projects' },
-    { name: 'Blog', path: '/blog' },
-    { name: 'Contact', path: '/contact' },
-  ];
+  const baseNavItems = useMemo(
+    () => [
+      { name: 'Home', path: '/' },
+      { name: 'About', path: '/about' },
+      { name: 'Projects', path: '/projects' },
+      { name: 'Blog', path: '/blog' },
+      { name: 'Contact', path: '/contact' },
+    ],
+    []
+  );
 
-  const navItems = hasAdminAccess ? [...baseNavItems, { name: 'Admin', path: '/admin/users' }] : baseNavItems;
+  const navItems = useMemo(() => {
+    const items = [...baseNavItems];
+
+    if (user) {
+      items.push({ name: 'Creator Hub', path: '/dashboard' });
+    }
+
+    if (hasAdminAccess) {
+      items.push({ name: 'Admin', path: '/admin/users' });
+    }
+
+    return items;
+  }, [baseNavItems, hasAdminAccess, user]);
 
   const isActive = (path: string) => location.pathname === path;
 
   const navLinkClasses = (path: string) =>
-    `group relative inline-flex items-center justify-center overflow-hidden rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
+    `group relative inline-flex items-center gap-2 overflow-hidden rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
       isActive(path)
         ? 'text-white'
         : 'text-text-muted hover:-translate-y-0.5 hover:text-white hover:tracking-[0.08em] hover:shadow-[0_10px_30px_rgba(99,102,241,0.25)]'
@@ -69,7 +73,7 @@ export default function Navbar() {
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">
-          <div className="flex items-center gap-1 rounded-full border border-border-subtle/50 bg-background-dark/60 px-2 py-1 shadow-lg shadow-black/20">
+          <div className="flex items-center gap-1 rounded-full border border-white/10 bg-black/40 px-2 py-1 shadow-lg shadow-black/25">
             {navItems.map((item) => (
               <Link key={item.name} to={item.path} className={navLinkClasses(item.path)}>
                 <span className="absolute inset-0 -z-30 rounded-full bg-gradient-to-r from-gradient-start/0 via-transparent to-gradient-end/0 opacity-0 blur-xl transition-all duration-300 group-hover:from-gradient-start/25 group-hover:via-gradient-mid/20 group-hover:to-gradient-end/25 group-hover:opacity-100 group-hover:scale-110" />
@@ -81,7 +85,22 @@ export default function Navbar() {
                     transition={{ type: 'spring', stiffness: 300, damping: 24 }}
                   />
                 )}
-                <span className="relative z-10">{item.name}</span>
+                <span className="relative z-10 flex items-center gap-2">
+                  <span
+                    className={`inline-flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-gradient-start/20 via-gradient-mid/15 to-gradient-end/20 ${
+                      isActive(item.path) ? 'text-background-dark' : 'text-gradient-start'
+                    }`}
+                  >
+                    {item.name === 'Home' && <CloudCog className="h-3 w-3" />}
+                    {item.name === 'About' && <Sparkles className="h-3 w-3" />}
+                    {item.name === 'Projects' && <Cloud className="h-3 w-3" />}
+                    {item.name === 'Blog' && <NotebookPen className="h-3 w-3" />}
+                    {item.name === 'Contact' && <Coins className="h-3 w-3" />}
+                    {item.name === 'Creator Hub' && <Code2 className="h-3 w-3" />}
+                    {item.name === 'Admin' && <ShieldCheck className="h-3 w-3" />}
+                  </span>
+                  <span>{item.name}</span>
+                </span>
               </Link>
             ))}
           </div>
@@ -94,23 +113,13 @@ export default function Navbar() {
                 </Link>
                 <Link
                   to="/register"
-                  className="rounded-full bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end px-5 py-2 text-sm font-semibold text-background-dark shadow-lg shadow-gradient-mid/30 transition-transform hover:scale-[1.02]"
+                  className="rounded-full bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end px-5 py-2 text-sm font-semibold text-background-dark shadow-lg shadow-gradient-mid/30 transition-transform hover:scale_[1.02]"
                 >
                   Join The Hub
                 </Link>
               </>
             ) : (
-              <>
-                <Link to="/dashboard" className="text-sm font-medium text-text-muted transition-colors hover:text-white">
-                  Dashboard
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="rounded-full border border-red-500/60 px-5 py-2 text-sm font-semibold text-red-400 transition-all hover:border-red-400 hover:text-red-300"
-                >
-                  Logout
-                </button>
-              </>
+              null
             )}
             <Link
               to="/contact"
@@ -133,72 +142,67 @@ export default function Navbar() {
 
       {isOpen && (
         <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} className="md:hidden">
-          <div className="space-y-4 border-t border-border-subtle/60 bg-background-dark/95 px-4 py-6">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                onClick={() => setIsOpen(false)}
-                className={`block rounded-2xl border border-border-subtle/40 px-4 py-3 text-sm font-semibold transition-all hover:border-gradient-start/60 hover:text-white ${
-                  isActive(item.path)
-                    ? 'bg-gradient-to-r from-gradient-start/10 via-gradient-mid/10 to-gradient-end/10 text-white'
-                    : 'text-text-muted'
-                }`}
-              >
-                {item.name}
+          <div className="space-y-6 border-t border-white/10 bg-background-dark/95 px-4 py-8">
+            <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-black/50 px-4 py-3">
+              <Link to="/" onClick={() => setIsOpen(false)} className="flex items-center gap-3">
+                <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-gradient-start/50 via-gradient-mid/40 to-gradient-end/50 text-background-dark shadow-md shadow-gradient-mid/30">
+                  <Cloud className="h-5 w-5" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs uppercase tracking-[0.35em] text-text-muted">Mohammed</span>
+                  <span className="text-base font-semibold text-white">Matheen</span>
+                </div>
               </Link>
-            ))}
+              <button
+                onClick={() => setIsOpen(false)}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-text-muted transition hover:text-white"
+                aria-label="Close navigation"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <nav className="grid gap-3">
+              {navItems.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.path}
+                  onClick={() => setIsOpen(false)}
+                  className={`flex items-center justify-between rounded-2xl border border-white/10 px-4 py-3 text-sm font-semibold transition-all hover:border-gradient-start hover:bg-gradient-start/10 ${
+                    isActive(item.path) ? 'text-white' : 'text-text-muted'
+                  }`}
+                >
+                  <span>{item.name}</span>
+                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-gradient-start/20 via-gradient-mid/15 to-gradient-end/20 text-background-dark">
+                    {isActive(item.path) ? <Sparkles className="h-4 w-4" /> : <CloudCog className="h-4 w-4 text-gradient-start" />}
+                  </span>
+                </Link>
+              ))}
+            </nav>
+
             <div className="grid gap-3">
-              {!user ? (
+              {!user && (
                 <>
                   <Link
                     to="/login"
                     onClick={() => setIsOpen(false)}
-                    className="rounded-xl border border-border-subtle/40 px-4 py-3 text-sm font-semibold text-text-muted transition-all hover:border-gradient-start/60 hover:text-white"
+                    className="rounded-2xl border border-white/10 px-4 py-3 text-sm font-semibold text-text-muted transition-all hover:border-gradient-start hover:text-white"
                   >
                     Login
                   </Link>
                   <Link
                     to="/register"
                     onClick={() => setIsOpen(false)}
-                    className="rounded-xl bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end px-4 py-3 text-sm font-semibold text-background-dark shadow-lg shadow-gradient-mid/30"
+                    className="rounded-2xl bg-gradient-to-r from-gradient-start via-gradient-mid to-gradient-end px-4 py-3 text-sm font-semibold text-background-dark shadow-lg shadow-gradient-mid/30"
                   >
                     Join The Hub
                   </Link>
-                </>
-              ) : (
-                <>
-                  <Link
-                    to="/dashboard"
-                    onClick={() => setIsOpen(false)}
-                    className="rounded-xl border border-border-subtle/40 px-4 py-3 text-sm font-semibold text-text-muted transition-all hover:border-gradient-start/60 hover:text-white"
-                  >
-                    Dashboard
-                  </Link>
-                  {hasAdminAccess && (
-                    <Link
-                      to="/admin/users"
-                      onClick={() => setIsOpen(false)}
-                      className="rounded-xl border border-border-subtle/40 px-4 py-3 text-sm font-semibold text-text-muted transition-all hover:border-gradient-start/60 hover:text-white"
-                    >
-                      Admin
-                    </Link>
-                  )}
-                  <button
-                    onClick={() => {
-                      setIsOpen(false);
-                      handleLogout();
-                    }}
-                    className="w-full rounded-xl border border-red-500/50 px-4 py-3 text-sm font-semibold text-red-400 transition-all hover:border-red-400 hover:text-red-300"
-                  >
-                    Logout
-                  </button>
                 </>
               )}
               <Link
                 to="/contact"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center justify-center gap-2 rounded-xl border border-gradient-start/60 px-4 py-3 text-sm font-semibold text-gradient-start transition-all hover:bg-gradient-start/10"
+                className="flex items-center justify-center gap-2 rounded-2xl border border-gradient-start/60 px-4 py-3 text-sm font-semibold text-gradient-start transition-all hover:bg-gradient-start/10"
               >
                 <Sparkles className="h-4 w-4" />
                 Let's Build

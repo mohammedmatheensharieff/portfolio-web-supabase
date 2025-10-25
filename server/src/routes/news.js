@@ -110,6 +110,51 @@ const sortArticles = (articles) =>
     (a, b) => new Date(b.publishedAt || 0).getTime() - new Date(a.publishedAt || 0).getTime()
   );
 
+const curatedManualArticles = [
+  {
+    id: 'curated-finops-unit-economics',
+    title: 'Designing Cloud Unit Economics That Engineers Understand',
+    url: 'https://www.finops.org/insights/designing-cloud-unit-economics/',
+    publishedAt: '2024-07-01T00:00:00.000Z',
+    excerpt:
+      'FinOps Foundation guidance on building shared language and dashboards that connect product velocity to cloud cost.',
+    source: {
+      name: 'FinOps Foundation',
+      url: 'https://www.finops.org',
+    },
+    author: null,
+    tags: ['finops', 'cloud-cost'],
+  },
+  {
+    id: 'curated-aws-observability-2024',
+    title: 'Raising the Observability Bar for Multi-account AWS Platforms',
+    url: 'https://aws.amazon.com/blogs/mt/raising-the-observability-bar-for-multi-account-aws/',
+    publishedAt: '2024-05-15T00:00:00.000Z',
+    excerpt:
+      'AWS guidance for implementing end-to-end tracing, metrics, and log strategy across centralized and workload accounts.',
+    source: {
+      name: 'AWS Architecture Blog',
+      url: 'https://aws.amazon.com/blogs/architecture/',
+    },
+    author: 'AWS Partner Solutions Architects',
+    tags: ['aws', 'observability', 'devops'],
+  },
+  {
+    id: 'curated-cncf-platform-engineering',
+    title: 'Platform Engineering Maturity: Lessons from the CNCF Landscape',
+    url: 'https://www.cncf.io/blog/2024/03/28/platform-engineering-maturity-lessons-from-the-cncf-landscape/',
+    publishedAt: '2024-03-28T00:00:00.000Z',
+    excerpt:
+      'CNCF community insights on building internal platforms, golden paths, and developer experience at scale.',
+    source: {
+      name: 'CNCF Blog',
+      url: 'https://www.cncf.io/blog/',
+    },
+    author: 'CNCF Platforms Working Group',
+    tags: ['platform-engineering', 'cloud-native'],
+  },
+];
+
 const getAggregatedNews = async () => {
   const now = Date.now();
   if (cachedArticles.length && cacheExpiresAt > now) {
@@ -121,7 +166,7 @@ const getAggregatedNews = async () => {
     fetchHackerNewsArticles(),
   ]);
 
-  const combined = deduplicateArticles([...devtoArticles, ...hackerNewsArticles]);
+  const combined = deduplicateArticles([...curatedManualArticles, ...devtoArticles, ...hackerNewsArticles]);
   const sorted = sortArticles(combined).slice(0, 18);
 
   cachedArticles = sorted;
