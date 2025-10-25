@@ -6,6 +6,7 @@ import blogRoutes from './routes/blog.js';
 import contactRoutes from './routes/contact.js';
 import adminRoutes from './routes/admin.js';
 import adminAuthRoutes from './routes/adminAuth.js';
+import newsRoutes from './routes/news.js';
 import { cookieMiddleware } from './middleware/admin.js';
 
 const app = express();
@@ -56,6 +57,7 @@ app.get('/api/health', (_req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/blog', blogRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/news', newsRoutes);
 app.use('/api/admin/auth', adminAuthRoutes);
 app.use('/api/admin', adminRoutes);
 

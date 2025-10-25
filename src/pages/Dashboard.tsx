@@ -3,8 +3,10 @@ import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
 import { BadgeCheck, Calendar, Hash, Mail, RefreshCw, User as UserIcon } from 'lucide-react';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 export default function Dashboard() {
+  useDocumentTitle('Dashboard — Mohammed Matheen');
   const { user, loading, refreshUser } = useAuth();
   const [refreshing, setRefreshing] = useState(false);
 

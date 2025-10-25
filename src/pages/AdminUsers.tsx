@@ -5,12 +5,14 @@ import { Navigate } from 'react-router-dom';
 import adminApi from '../lib/adminApi';
 import type { AuthUser } from '../types/database';
 import { useAdminAuth } from '../context/AdminAuthContext';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 type ManagedUser = AuthUser;
 type FetchState = 'idle' | 'loading' | 'error';
 type Toast = { type: 'success' | 'error'; message: string } | null;
 
 export default function AdminUsers() {
+  useDocumentTitle('Admin — User Management | Mohammed Matheen');
   const { admin } = useAdminAuth();
   const [users, setUsers] = useState<ManagedUser[]>([]);
   const [fetchState, setFetchState] = useState<FetchState>('idle');

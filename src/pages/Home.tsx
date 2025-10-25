@@ -2,8 +2,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Mail, Cloud, Server, Code2 } from 'lucide-react';
 import { useInView } from 'react-intersection-observer';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 export default function Home() {
+  useDocumentTitle('Mohammed Matheen — Cloud Architect & DevOps Lead');
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,

@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { AlertCircle, CheckCircle, Mail, MessageSquare, Send, Sparkles, TimerReset } from 'lucide-react';
 import api from '../lib/api';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 export default function Contact() {
+  useDocumentTitle('Contact — Mohammed Matheen');
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);

@@ -3,8 +3,10 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Mail, Lock } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 export default function Login() {
+  useDocumentTitle('Login — Mohammed Matheen');
   const navigate = useNavigate();
   const { login } = useAuth();
   const [formData, setFormData] = useState({

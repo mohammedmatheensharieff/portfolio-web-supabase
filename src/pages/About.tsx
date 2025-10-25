@@ -16,6 +16,7 @@ import {
   TrendingUp,
   Users,
 } from 'lucide-react';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const containerVariant = {
   hidden: { opacity: 0, y: 20 },
@@ -136,6 +137,7 @@ const recognitions = [
 ];
 
 export default function About() {
+  useDocumentTitle('About — Mohammed Matheen');
   return (
     <div className="max-w-6xl mx-auto py-12 px-4 lg:px-6">
       <motion.section variants={containerVariant} initial="hidden" animate="show" className="mb-16">

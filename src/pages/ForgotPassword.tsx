@@ -3,8 +3,10 @@ import { motion } from 'framer-motion';
 import { Mail, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import api from '../lib/api';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 export default function ForgotPassword() {
+  useDocumentTitle('Forgot Password — Mohammed Matheen');
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [error, setError] = useState('');

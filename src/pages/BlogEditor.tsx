@@ -5,11 +5,13 @@ import { Save, X } from 'lucide-react';
 import api from '../lib/api';
 import { useAuth } from '../context/AuthContext';
 import type { BlogPost } from '../types/database';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 export default function BlogEditor() {
   const { slug } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
+  useDocumentTitle(slug ? 'Edit Blog Post — Mohammed Matheen' : 'Write Blog Post — Mohammed Matheen');
 
   const [formData, setFormData] = useState({
     title: '',

@@ -3,8 +3,10 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ShieldCheck, Mail, Lock } from 'lucide-react';
 import { useAdminAuth } from '../context/AdminAuthContext';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 export default function AdminLogin() {
+  useDocumentTitle('Admin Login — Mohammed Matheen');
   const navigate = useNavigate();
   const { login } = useAdminAuth();
   const [formData, setFormData] = useState({ email: '', password: '' });

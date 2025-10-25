@@ -3,8 +3,10 @@ import { motion } from 'framer-motion';
 import { Lock } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import api from '../lib/api';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 export default function ResetPassword() {
+  useDocumentTitle('Reset Password — Mohammed Matheen');
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [formData, setFormData] = useState({

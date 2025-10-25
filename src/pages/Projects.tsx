@@ -1,8 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, Cloud, Server, Code2 } from 'lucide-react';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 export default function Projects() {
+  useDocumentTitle('Projects — Mohammed Matheen');
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {

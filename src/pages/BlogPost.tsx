@@ -5,6 +5,7 @@ import { Edit2, Trash2, Clock, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import api from '../lib/api';
 import type { BlogPost } from '../types/database';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 export default function BlogPostPage() {
   const { slug } = useParams();
@@ -12,6 +13,7 @@ export default function BlogPostPage() {
   const { user } = useAuth();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
+  useDocumentTitle(post ? `${post.title} — Mohammed Matheen` : 'Blog — Mohammed Matheen');
 
   useEffect(() => {
     const fetchPost = async () => {

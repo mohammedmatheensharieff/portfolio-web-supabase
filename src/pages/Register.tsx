@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 export default function Register() {
+  useDocumentTitle('Join The Hub — Mohammed Matheen');
   const navigate = useNavigate();
   const { register } = useAuth();
   const [formData, setFormData] = useState({
