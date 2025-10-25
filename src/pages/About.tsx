@@ -52,33 +52,43 @@ const narrative = [
 
 const experience = [
   {
-    period: '2022 — Present',
-    company: 'Zoeen Cloud Solutions',
-    title: 'Lead Cloud Architect',
+    period: 'November 2022 — Present',
+    company: 'NirogStreet · Bengaluru, India',
+    title: 'DevOps Engineer',
     achievements: [
-      'Designed a multi-cloud backbone supporting 45+ microservices with zero downtime deployments',
-      'Cut infrastructure spend by 28% through data-backed rightsizing and spot instance orchestration',
-      'Created the engineering playbook adopted by platform, security, and analytics teams',
+      'Lead cloud infrastructure and CI/CD automation across Jenkins, Terraform, and Kubernetes to ship fast, secure releases.',
+      'Own monitoring and observability stacks (Teleport, Psono, Jenkins, Grafana, Loki, Prometheus) that keep teams informed and resilient.',
+      'Drive FinOps strategy—from budgeting to forecasting—ensuring platform velocity aligns with responsible cloud spend.',
     ],
   },
   {
-    period: '2019 — 2022',
-    company: 'Asterion Labs',
-    title: 'Senior DevOps & Reliability Engineer',
+    period: 'September 2021 — November 2022',
+    company: 'HybridSkill (contracting with HCL) · Bengaluru, India',
+    title: 'Cloud Architect',
     achievements: [
-      'Implemented progressive delivery pipelines for mission-critical SaaS workloads',
-      'Introduced automated chaos testing that improved mean time to recovery by 63%',
-      'Mentored 9 engineers into platform-focused roles, scaling the DevOps guild',
+      'Migrated on-prem workloads to AWS with auto-scaling, load balancing, and CloudWatch monitoring for performant, cost-efficient operations.',
+      'Implemented FinOps governance, educating teams on cloud management while reducing costs through right-sizing and visibility.',
+      'Architected resilient infrastructure that met compliance requirements and empowered development teams with self-service capabilities.',
     ],
   },
   {
-    period: '2017 — 2019',
-    company: 'Nimbus Digital',
-    title: 'Cloud Infrastructure Engineer',
+    period: 'June 2021 — August 2021',
+    company: 'Saaspect · Bengaluru, India',
+    title: 'DevOps Engineer',
     achievements: [
-      'Migrated legacy monolith workloads onto container platforms with full observability',
-      'Launched governance guardrails and policy-as-code for regulated clients',
-      'Collaborated with product leadership to shape SLAs and error budgets',
+      'Automated logs, backups, system updates, and deployments using Bash, curl, and Jenkins to minimize downtime and manual effort.',
+      'Integrated automation scripts into CI/CD pipelines, enabling seamless deployments and faster feedback loops for developers.',
+      'Introduced cron-based maintenance routines and monitoring, boosting platform stability and reliability.',
+    ],
+  },
+  {
+    period: 'March 2020 — May 2020',
+    company: 'EthicalByte (Uber project) · Remote',
+    title: 'Data Analyst',
+    achievements: [
+      'Analyzed Uber operations data using Python, Pandas, and NumPy to spot improvements in driver-partner performance and customer experience.',
+      'Built machine learning models for demand prediction and service optimization, boosting forecasting accuracy and decision-making.',
+      'Delivered dashboards and insights that helped stakeholders reduce resource allocation overhead and increase satisfaction metrics.',
     ],
   },
 ];
@@ -118,41 +128,90 @@ const ecosystem = [
   },
   {
     category: 'Data & Messaging',
-    tools: ['PostgreSQL', 'MongoDB', 'Redis', 'Kafka', 'Supabase'],
+    tools: ['PostgreSQL', 'MongoDB', 'Redis', 'Kafka', 'Supabase', 'BigQuery'],
   },
   {
     category: 'Observability',
-    tools: ['Grafana', 'Prometheus', 'Elastic Stack', 'Datadog', 'Honeycomb'],
+    tools: ['Grafana', 'Prometheus', 'Elastic Stack', 'Datadog', 'Honeycomb', 'PagerDuty'],
   },
   {
     category: 'Frontend & Product',
-    tools: ['React', 'Next.js', 'Vite', 'Tailwind', 'Storybook'],
+    tools: ['React', 'Next.js', 'Vite', 'Tailwind', 'Storybook', 'Framer Motion'],
   },
   {
     category: 'FinOps & Analytics',
-    tools: ['AWS Cost Explorer', 'Azure Cost Management', 'CloudHealth', 'Finout', 'Looker Studio'],
+    tools: ['AWS Cost Explorer', 'Azure Cost Management', 'CloudHealth', 'Finout', 'Looker Studio', 'dbt'],
   },
   {
-    category: 'Collaboration',
-    tools: ['Linear', 'Jira', 'Confluence', 'Notion', 'Miro'],
+    category: 'Collaboration & Delivery',
+    tools: ['Linear', 'Jira', 'Confluence', 'Notion', 'Miro', 'Slack'],
+  },
+  {
+    category: 'Cloud Platforms',
+    tools: ['AWS', 'Google Cloud', 'Microsoft Azure', 'DigitalOcean', 'Linode', 'OpenStack'],
   },
 ];
 
 const recognitions = [
   {
-    title: 'Certified Kubernetes Security Specialist',
-    issuer: 'Cloud Native Computing Foundation',
+    title: 'AWS Solutions Architect Associate (Learning Path)',
+    issuer: 'Amazon Web Services',
     year: 2023,
   },
   {
-    title: 'AWS Community Builder',
-    issuer: 'Amazon Web Services',
+    title: 'ACE: Associate Cloud Engineer',
+    issuer: 'Google Cloud',
+    year: 2021,
+  },
+  {
+    title: 'The Complete 2024 Web Development Bootcamp',
+    issuer: 'Udemy',
+    year: 2024,
+  },
+  {
+    title: 'Essential Google Cloud Infrastructure: Core Services',
+    issuer: 'Google Cloud Skill Boost',
+    year: 2021,
+  },
+  {
+    title: 'Essential Google Cloud Infrastructure: Foundation',
+    issuer: 'Google Cloud Skill Boost',
+    year: 2021,
+  },
+  {
+    title: 'Google Cloud Fundamentals: Core Infrastructure',
+    issuer: 'Google Cloud Skill Boost',
+    year: 2021,
+  },
+  {
+    title: 'Migrating to Google Cloud',
+    issuer: 'Google Cloud Skill Boost',
     year: 2022,
   },
   {
-    title: 'HashiCorp Ambassador',
-    issuer: 'HashiCorp',
+    title: 'Docker Essentials & Developer Introduction',
+    issuer: 'IBM SkillsBuild',
+    year: 2020,
+  },
+  {
+    title: 'Android Application Development',
+    issuer: 'Udemy',
     year: 2021,
+  },
+  {
+    title: 'Annual Privacy & Information Security Training (PS-001)',
+    issuer: 'Google',
+    year: 2021,
+  },
+  {
+    title: 'Global English Certification',
+    issuer: 'Sutherland Global Services',
+    year: 2020,
+  },
+  {
+    title: 'Cyber Security Awareness (ANSEC)',
+    issuer: 'Safex ANSEC',
+    year: 2022,
   },
 ];
 
@@ -176,8 +235,9 @@ export default function About() {
             </div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }} className="mt-8 flex flex-wrap gap-4">
               <a
-                href="/Mohammed_Matheen_Resume.pdf"
-                download
+                href="/mohammed.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-gradient-to-r from-gradient-start to-gradient-end text-black px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300"
               >
                 <Layers size={20} />
@@ -218,9 +278,11 @@ export default function About() {
                   <motion.li
                     key={highlight.label}
                     variants={itemVariant}
-                    className="rounded-xl bg-gray-950/60 border border-gray-800 px-4 py-5"
+                    whileHover={{ y: -4, scale: 1.02 }}
+                    transition={{ type: 'spring', stiffness: 240, damping: 18 }}
+                    className="rounded-xl bg-gray-950/60 border border-gray-800 px-4 py-5 transition hover:border-gradient-start/50 hover:bg-gradient-start/5 hover:shadow-[0_12px_28px_rgba(99,102,241,0.22)]"
                   >
-                    <span className="flex items-center gap-2 text-gray-400 text-xs uppercase tracking-wide mb-2">
+                    <span className="flex items-center gap-2 text-gray-400 text-xs uppercase tracking-wide mb-2 transition group-hover:text-gradient-start">
                       {React.createElement(highlight.icon, { size: 16, className: 'text-gradient-start' })}
                       {highlight.label}
                     </span>
@@ -243,11 +305,13 @@ export default function About() {
             <motion.article
               key={`${role.company}-${role.period}`}
               variants={itemVariant}
-              className="rounded-2xl border border-gray-800 bg-gray-900/40 p-6 lg:p-8"
+              whileHover={{ y: -6, scale: 1.01 }}
+              transition={{ type: 'spring', stiffness: 240, damping: 20 }}
+              className="group rounded-2xl border border-gray-800 bg-gray-900/40 p-6 lg:p-8 transition hover:border-gradient-start/60 hover:bg-gradient-start/5 hover:shadow-[0_18px_36px_rgba(99,102,241,0.2)]"
             >
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 mb-4">
                 <div>
-                  <h3 className="text-2xl font-semibold text-white">{role.title}</h3>
+                  <h3 className="text-2xl font-semibold text-white transition group-hover:text-gradient-start">{role.title}</h3>
                   <p className="text-gray-400 text-sm uppercase tracking-wide">{role.company}</p>
                 </div>
                 <span className="text-sm font-medium text-gradient-start">{role.period}</span>
@@ -255,7 +319,7 @@ export default function About() {
               <ul className="space-y-2 text-gray-300 leading-relaxed">
                 {role.achievements.map((achievement) => (
                   <li key={achievement} className="flex gap-3">
-                    <CheckCircle size={18} className="mt-1 text-gradient-start flex-shrink-0" />
+                    <CheckCircle size={18} className="mt-1 text-gradient-start flex-shrink-0 transition group-hover:scale-110" />
                     <span>{achievement}</span>
                   </li>
                 ))}
@@ -281,11 +345,13 @@ export default function About() {
             <motion.div
               key={area.title}
               variants={itemVariant}
-              className="rounded-2xl border border-gray-800 bg-gray-900/40 p-6"
+              whileHover={{ y: -6, scale: 1.02 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+              className="group rounded-2xl border border-gray-800 bg-gray-900/40 p-6 transition hover:border-gradient-start/60 hover:bg-gradient-start/5 hover:shadow-[0_15px_30px_rgba(99,102,241,0.25)]"
             >
               <div className="flex items-center gap-3 mb-4">
-                {React.createElement(area.icon, { size: 24, className: 'text-gradient-start' })}
-                <h3 className="text-xl font-semibold text-white">{area.title}</h3>
+                {React.createElement(area.icon, { size: 24, className: 'text-gradient-start transition group-hover:scale-110' })}
+                <h3 className="text-xl font-semibold text-white transition group-hover:text-gradient-start">{area.title}</h3>
               </div>
               <ul className="space-y-3 text-gray-300 leading-relaxed">
                 {area.items.map((item) => (
@@ -308,19 +374,28 @@ export default function About() {
         <div className="rounded-3xl border border-gray-800 bg-gray-900/30 p-6 lg:p-8">
           <div className="grid md:grid-cols-2 gap-8">
             {ecosystem.map((group) => (
-              <div key={group.category} className="space-y-3">
-                <p className="text-sm uppercase tracking-wide text-gray-400">{group.category}</p>
-                <div className="flex flex-wrap gap-2">
+              <motion.div
+                key={group.category}
+                whileHover={{ y: -4, scale: 1.01 }}
+                className="space-y-3 rounded-2xl border border-white/5 bg-black/30 p-4 transition hover:border-gradient-start/50 hover:bg-gradient-start/5"
+              >
+                <p className="text-sm uppercase tracking-wide text-gray-400 transition group-hover:text-gradient-start">
+                  {group.category}
+                </p>
+                <motion.div
+                  className="flex flex-wrap gap-2"
+                  whileHover={{}}
+                >
                   {group.tools.map((tool) => (
                     <span
                       key={tool}
-                      className="px-3 py-1.5 rounded-full border border-gray-700 text-sm text-gray-200 bg-gray-950/60"
+                      className="px-3 py-1.5 rounded-full border border-gray-700 text-sm text-gray-200 bg-gray-950/60 transition hover:border-gradient-start/60 hover:text-white"
                     >
                       {tool}
                     </span>
                   ))}
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -339,10 +414,12 @@ export default function About() {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, amount: 0.4 }}
-              className="rounded-2xl border border-gray-800 bg-gray-900/40 p-6"
+              whileHover={{ y: -6, scale: 1.02 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+              className="group rounded-2xl border border-gray-800 bg-gray-900/40 p-6 transition hover:border-gradient-start/60 hover:bg-gradient-start/5 hover:shadow-[0_15px_30px_rgba(99,102,241,0.25)]"
             >
-              <p className="text-sm uppercase tracking-wide text-gray-400">{item.year}</p>
-              <h3 className="text-lg font-semibold text-white mt-3 mb-2">{item.title}</h3>
+              <p className="text-sm uppercase tracking-wide text-gray-400 group-hover:text-gradient-start transition">{item.year}</p>
+              <h3 className="text-lg font-semibold text-white mt-3 mb-2 transition group-hover:text-gradient-start">{item.title}</h3>
               <p className="text-gray-400 text-sm">{item.issuer}</p>
             </motion.div>
           ))}

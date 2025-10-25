@@ -11,6 +11,10 @@ import {
   Coins,
   Workflow,
   CloudCog,
+  Rocket,
+  Server,
+  Shield,
+  BarChart3,
 } from 'lucide-react';
 import api from '../lib/api';
 import useDocumentTitle from '../hooks/useDocumentTitle';
@@ -59,20 +63,28 @@ export default function Contact() {
     },
   ];
 
-  const availability = [
-    {
-      label: 'Platform Architecture Intensives',
-      icon: <CloudCog className="h-4 w-4 text-gradient-start" />,
-    },
+const availability = [
+  {
+    label: 'Platform Architecture Intensives',
+    icon: <CloudCog className="h-4 w-4 text-gradient-start" />,
+  },
     {
       label: 'DevOps & SRE Leadership Pods',
       icon: <Workflow className="h-4 w-4 text-gradient-start" />,
     },
     {
       label: 'FinOps Diagnostics & Runbooks',
-      icon: <Coins className="h-4 w-4 text-gradient-start" />,
-    },
-  ];
+    icon: <Coins className="h-4 w-4 text-gradient-start" />,
+  },
+];
+
+const briefScopes = [
+  { label: 'Fullstack build or redesign', icon: <Rocket size={14} /> },
+  { label: 'Cloud migration / modernization', icon: <CloudCog size={14} /> },
+  { label: 'DevOps | CI/CD uplift', icon: <Server size={14} /> },
+  { label: 'FinOps & cost optimization', icon: <BarChart3 size={14} /> },
+  { label: 'Reliability & incident readiness', icon: <Shield size={14} /> },
+];
 
   return (
     <div className="relative overflow-hidden py-16">
@@ -135,26 +147,56 @@ export default function Contact() {
 
         <motion.form
           onSubmit={handleSubmit}
-          className="space-y-6 rounded-3xl border border-border-subtle/60 bg-background-dark/80 p-8 shadow-xl shadow-black/25 backdrop-blur-xl"
+          className="space-y-7 rounded-3xl border border-border-subtle/60 bg-background-dark/85 p-8 shadow-xl shadow-black/25 backdrop-blur-xl"
           initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          <div className="space-y-2">
+          <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-black/30 p-4">
             <div className="flex items-center gap-3">
-              <MessageSquare className="h-5 w-5 text-gradient-start" />
-              <p className="text-sm font-semibold text-white">Drop the brief</p>
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-gradient-start/30 via-gradient-mid/20 to-gradient-end/30 text-white shadow-lg shadow-gradient-mid/20">
+                <MessageSquare className="h-5 w-5" />
+              </span>
+              <div>
+                <p className="text-sm font-semibold text-white">Drop the brief</p>
+                <p className="text-[11px] uppercase tracking-[0.3em] text-text-muted">
+                  Outline the mission, friction, and the timeline you are aiming for.
+                </p>
+              </div>
             </div>
-            <p className="text-[11px] uppercase tracking-[0.3em] text-text-muted">
-              Outline the mission, current friction, and the timeline you are aiming for.
-            </p>
+            <ul className="grid gap-2 rounded-xl border border-white/5 bg-black/40 p-4 text-xs text-text-muted">
+              <li className="flex gap-2">
+                <span className="text-gradient-start">•</span>
+                What product or platform are you building or scaling?
+              </li>
+              <li className="flex gap-2">
+                <span className="text-gradient-start">•</span>
+                Where is the current friction—delivery, performance, FinOps, tooling?
+              </li>
+              <li className="flex gap-2">
+                <span className="text-gradient-start">•</span>
+                What success looks like—KPIs, timeline, or milestones we should hit.
+              </li>
+            </ul>
+            <div className="grid gap-2 rounded-xl border border-white/5 bg-black/30 p-4 text-xs text-text-muted">
+              <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500">Focus areas</p>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {briefScopes.map((scope) => (
+                  <span
+                    key={scope.label}
+                    className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/40 px-3 py-2 text-[11px] font-medium text-gray-300"
+                  >
+                    <span className="text-gradient-start">{scope.icon}</span>
+                    {scope.label}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
 
-          <div className="space-y-3">
-            <div>
-              <label htmlFor="name" className="block text-xs font-semibold uppercase tracking-[0.3em] text-text-muted">
-                Name
-              </label>
+          <div className="grid gap-4 md:grid-cols-2">
+            <label className="flex flex-col text-xs font-semibold uppercase tracking-[0.3em] text-text-muted">
+              Name
               <input
                 id="name"
                 type="text"
@@ -163,35 +205,31 @@ export default function Contact() {
                 className="mt-2 w-full rounded-xl border border-border-subtle/60 bg-background-dark/70 px-4 py-3 text-sm text-white outline-none transition-all focus:border-gradient-start focus:ring-2 focus:ring-gradient-start/40"
                 required
               />
-            </div>
-            <div>
-              <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-[0.3em] text-text-muted">
-                Email
-              </label>
+            </label>
+            <label className="flex flex-col text-xs font-semibold uppercase tracking-[0.3em] text-text-muted">
+              Email
               <input
                 id="email"
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="mt-1.5 w-full rounded-xl border border-border-subtle/60 bg-background-dark/70 px-4 py-3 text-sm text-white outline-none transition-all focus:border-gradient-start focus:ring-2 focus:ring-gradient-start/40"
+                className="mt-2 w-full rounded-xl border border-border-subtle/60 bg-background-dark/70 px-4 py-3 text-sm text-white outline-none transition-all focus:border-gradient-start focus:ring-2 focus:ring-gradient-start/40"
                 required
               />
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-xs font-semibold uppercase tracking-[0.3em] text-text-muted">
-                Message
-              </label>
-              <textarea
-                id="message"
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                rows={6}
-                className="mt-1.5 w-full resize-none rounded-xl border border-border-subtle/60 bg-background-dark/70 px-4 py-3 text-sm text-white outline-none transition-all focus:border-gradient-start focus:ring-2 focus:ring-gradient-start/40"
-                placeholder="Share what you’re building, the KPIs that matter, and the timeline you’re targeting."
-                required
-              />
-            </div>
+            </label>
           </div>
+          <label className="flex flex-col text-xs font-semibold uppercase tracking-[0.3em] text-text-muted">
+            Brief
+            <textarea
+              id="message"
+              value={formData.message}
+              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+              rows={7}
+              className="mt-2 w-full resize-none rounded-xl border border-border-subtle/60 bg-background-dark/70 px-4 py-3 text-sm text-white outline-none transition-all focus:border-gradient-start focus:ring-2 focus:ring-gradient-start/40"
+              placeholder="Example: We are scaling our SaaS across APAC. Need a multi-cloud rollout strategy, polished CI/CD, and FinOps guardrails before Q4."
+              required
+            />
+          </label>
 
           <motion.button
             type="submit"

@@ -106,16 +106,18 @@ export default function Home() {
           className="mt-14 grid w-full gap-4 rounded-3xl border border-white/10 bg-white/5 p-6 sm:grid-cols-2 lg:grid-cols-5"
         >
           {highlights.map((item) => (
-            <div
+            <motion.div
               key={item.title}
-              className="flex flex-col items-center gap-3 rounded-2xl border border-white/5 bg-black/30 px-4 py-6 text-center"
+              whileHover={{ y: -6, scale: 1.02 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 18 }}
+              className="group flex flex-col items-center gap-3 rounded-2xl border border-white/5 bg-black/30 px-4 py-6 text-center shadow-transparent transition hover:border-gradient-start/60 hover:shadow-[0px_12px_30px_rgba(99,102,241,0.25)]"
             >
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-gradient-start/30 via-gradient-mid/25 to-gradient-end/30 text-white">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-gradient-start/30 via-gradient-mid/25 to-gradient-end/30 text-white transition group-hover:from-gradient-start group-hover:via-gradient-mid group-hover:to-gradient-end">
                 {item.icon}
               </span>
-              <p className="text-sm font-semibold text-white">{item.title}</p>
+              <p className="text-sm font-semibold text-white transition group-hover:text-gradient-start">{item.title}</p>
               <p className="text-xs text-gray-400">{item.detail}</p>
-            </div>
+            </motion.div>
           ))}
         </motion.div>
       </motion.section>
