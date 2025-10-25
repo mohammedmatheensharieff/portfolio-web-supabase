@@ -37,8 +37,10 @@ export default function Navbar() {
   const isActive = (path: string) => location.pathname === path;
 
   const navLinkClasses = (path: string) =>
-    `relative px-3 py-2 text-sm font-medium transition-all duration-200 ${
-      isActive(path) ? 'text-white' : 'text-text-muted hover:text-white'
+    `group relative inline-flex items-center justify-center overflow-hidden rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
+      isActive(path)
+        ? 'text-white'
+        : 'text-text-muted hover:-translate-y-0.5 hover:text-white hover:tracking-[0.08em] hover:shadow-[0_10px_30px_rgba(99,102,241,0.25)]'
     }`;
 
   return (
@@ -70,13 +72,16 @@ export default function Navbar() {
           <div className="flex items-center gap-1 rounded-full border border-border-subtle/50 bg-background-dark/60 px-2 py-1 shadow-lg shadow-black/20">
             {navItems.map((item) => (
               <Link key={item.name} to={item.path} className={navLinkClasses(item.path)}>
-                {item.name}
+                <span className="absolute inset-0 -z-30 rounded-full bg-gradient-to-r from-gradient-start/0 via-transparent to-gradient-end/0 opacity-0 blur-xl transition-all duration-300 group-hover:from-gradient-start/25 group-hover:via-gradient-mid/20 group-hover:to-gradient-end/25 group-hover:opacity-100 group-hover:scale-110" />
+                <span className="absolute inset-[2px] -z-20 rounded-full border border-white/0 bg-gradient-to-r from-white/0 via-white/0 to-white/0 transition-all duration-300 group-hover:border-white/10 group-hover:from-white/5 group-hover:to-white/5 group-hover:backdrop-blur group-hover:opacity-100" />
                 {isActive(item.path) && (
                   <motion.span
                     layoutId="activeNav"
-                    className="absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-gradient-start/20 via-gradient-mid/20 to-gradient-end/20"
+                    className="absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-gradient-start/25 via-gradient-mid/25 to-gradient-end/25 shadow-[0_0_25px_rgba(99,102,241,0.35)]"
+                    transition={{ type: 'spring', stiffness: 300, damping: 24 }}
                   />
                 )}
+                <span className="relative z-10">{item.name}</span>
               </Link>
             ))}
           </div>
